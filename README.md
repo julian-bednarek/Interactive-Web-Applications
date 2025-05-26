@@ -199,7 +199,3 @@ The backend exposes RESTful APIs under the `/api/` path:
     * Example: `GET /api/public/faculty`
 
 *(Refer to the `controllers` package in the backend source for detailed endpoint definitions.)*
-
----
-
-This README provides a good starting point. You can expand on any section with more specific details, contribution guidelines, or future plans as your project evolves!
