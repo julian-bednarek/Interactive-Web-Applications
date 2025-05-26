@@ -1,0 +1,20 @@
+<div class="unauthorized-container">
+    <mat-card class="unauthorized-card">
+        <mat-card-header>
+            <div mat-card-avatar class="unauthorized-header-image">
+            </div>
+            <mat-card-title>{{ title }}</mat-card-title>
+            <mat-card-subtitle *ngIf="statusCode">HTTP Status Code: {{ statusCode }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ message }}</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-raised-button color="primary" class="unauthorized-button home-button" (click)="goHome()">Go to
+                Homepage</button>
+            <!-- Optionally add a login button for 401 -->
+            <button mat-stroked-button color="accent" class="unauthorized-button login-button"
+                *ngIf="statusCode === 401" [routerLink]="['/login']">Login</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

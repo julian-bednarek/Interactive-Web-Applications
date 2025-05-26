@@ -1,0 +1,25 @@
+<div class="student-dashboard">
+  <app-dashboard-nav title="Student Dashboard" [navItems]="studentNavItems" [isMobileMenuOpen]="isMobileMenuOpen"
+    (mobileMenuToggle)="toggleMobileMenu()" (logoutEvent)="logout()">
+  </app-dashboard-nav>
+
+  <div class="content-area">
+    <ng-container *ngIf="indexLoadingState$ | async as state">
+      <div *ngIf="state.isLoading" class="section-content loading-indicator">
+        Loading student data...
+      </div>
+
+      <div *ngIf="state.error && !state.isLoading" class="section-content error-message">
+        <p><strong>Error:</strong> {{ state.error }}</p>
+      </div>
+
+      <div class="section-content">
+        <router-outlet *ngIf="state.indexAvailable && !state.error"></router-outlet>
+      </div>
+
+      <div *ngIf="!state.indexAvailable && !state.error && !state.isLoading" class="section-content error-message">
+        <p>Student identifier could not be loaded. Dashboard cannot be displayed.</p>
+      </div>
+    </ng-container>
+  </div>
+</div>

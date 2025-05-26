@@ -1,0 +1,44 @@
+<div class="fos-sub-dashboard">
+
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h2>Manage Fields of Study</h2>
+    <app-add-button *ngIf="!isEditing && !isLoading" [buttonText]="'Add New Field of Study'" (addClick)="initNewFos()"
+      [disabled]="isLoadingAction || !!facultyError" class="ms-auto">
+    </app-add-button>
+  </div>
+
+  <!-- Loading Indicator (Table) -->
+  <div *ngIf="isLoading && !isEditing" class="loading-indicator">Loading data...</div>
+
+  <!-- Error Message (General/Table) -->
+  <div *ngIf="error && !isEditing" class="error-message">
+    <p>{{ error }}</p>
+    <button (click)="refreshData()" class="btn btn-secondary btn-sm">Retry</button>
+  </div>
+
+  <!-- Content Area -->
+  <div class="dashboard-content">
+
+    <!-- Dynamic Add/Edit Form -->
+    <div *ngIf="isEditing && fosFormConfig">
+      <app-dynamic-form [formConfig]="fosFormConfig" [initialData]="selectedItem" [isLoading]="isLoadingAction"
+        (formSubmit)="saveFos($event)" (formCancel)="cancelEdit()">
+      </app-dynamic-form>
+      <!-- Display form-specific error -->
+      <div *ngIf="error && isEditing" class="error-message mt-3">
+        <p>{{ error }}</p>
+      </div>
+    </div>
+
+    <!-- Fields of Study List (Table) -->
+    <div *ngIf="!isEditing">
+      <app-dynamic-table [data]="fieldsOfStudy$ | async" [columns]="tableColumns" [actions]="tableActions"
+        [idKey]="'fieldOfStudyId'" [isLoading]="isLoadingFos" noDataMessage="No fields of study found."
+        (actionClick)="handleTableAction($event)">
+      </app-dynamic-table>
+    </div>
+
+  </div> <!-- End dashboard-content -->
+
+</div>

@@ -1,0 +1,35 @@
+// Styles for the shared semester selector
+
+.semester-selector-wrapper {
+    // Allow parent to control width/alignment easily
+    display: inline-block; // Or block, depending on desired default layout
+    max-width: 250px; // Default max width, can be overridden by parent
+    width: 100%; // Take up width of parent container up to max-width
+    margin-bottom: 1rem; // Default spacing
+
+    mat-form-field {
+        width: 100%; // Form field takes full width of wrapper
+
+        // Adjust internal padding/margins for value and arrow
+        ::ng-deep .mat-mdc-select-value {
+
+            // Target the text element specifically for left margin/padding
+            .mat-mdc-select-value-text {
+                margin-left: 8px; // Add left margin to the text
+            }
+
+            // Reset padding from previous attempts if needed
+            // padding-top: 0.25em;
+            // padding-bottom: 0.25em;
+        }
+
+        ::ng-deep .mat-mdc-select-arrow-wrapper {
+            margin-right: 8px; // Add right margin to the arrow container
+        }
+    }
+}
+
+// Ensure panel background is solid (copied from report-card styles)
+::ng-deep .mat-mdc-select-panel {
+    background-color: #ffffff !important; // White background
+}

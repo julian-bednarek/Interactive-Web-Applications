@@ -1,0 +1,62 @@
+<mat-card class="personal-data-card">
+  <mat-card-content>
+    <div *ngIf="isLoading" class="loading-indicator">Loading field of study data...</div>
+    <div *ngIf="error && !isLoading" class="error-message">{{ error }}</div>
+
+    <ng-container *ngIf="!isLoading && !error && (fieldOfStudyData || generalInfo); else noData">
+      <dl class="data-list">
+
+        <div class="section-header">Field of Study Information</div>
+
+        <div class="data-item">
+          <dt>Faculty:</dt>
+          <dd>{{ fieldOfStudyData?.faculty || '-' }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>Field of Study:</dt>
+          <dd>{{ fieldOfStudyData?.name || '-' }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>Mode of Study:</dt>
+          <dd>{{ fieldOfStudyData?.formOfStudy | snakeToNormalCase }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>Degree Level:</dt>
+          <dd>{{ fieldOfStudyData?.degree | snakeToNormalCase }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>Duration (Years):</dt>
+          <dd>{{ fieldOfStudyData?.duration != null ? fieldOfStudyData?.duration! / 2 : '-'
+            }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>Current Semester:</dt>
+          <dd>{{ generalInfo?.currentSemester ?? '-' }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>Yearly Registration:</dt>
+          <dd>{{ generalInfo?.yearlyRegistration || '-' }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>ECTS Collected/Required:</dt>
+          <dd>{{ generalInfo?.ECTScolleted ?? '0' }} / {{ generalInfo?.ECTSrequired ?? 'N/A' }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>Average Grade (Total):</dt>
+          <dd>{{ generalInfo?.averageGrade !== null && generalInfo?.averageGrade !== undefined ?
+            (generalInfo?.averageGrade | number:'1.2-2') : '-' }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>Average Grade (Semester):</dt>
+          <dd>{{ generalInfo?.averageSemesterGrade !== null && generalInfo?.averageSemesterGrade !== undefined ?
+            (generalInfo?.averageSemesterGrade| number:'1.2-2') : '-' }}</dd>
+        </div>
+
+      </dl>
+    </ng-container>
+
+    <ng-template #noData>
+      <div *ngIf="!isLoading && !error" class="no-data-message">Field of study information not available.</div>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

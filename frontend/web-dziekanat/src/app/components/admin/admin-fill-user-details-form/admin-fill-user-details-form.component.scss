@@ -1,0 +1,65 @@
+:host {
+  display: block;
+}
+
+.fill-details-form-container {
+  max-width: 800px;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+
+  .card-header {
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+
+    fieldset {
+      margin-bottom: 1.5rem !important;
+      legend {
+        font-size: 0.9em;
+        font-weight: 500;
+        color: var(--bs-secondary-color);
+      }
+    }
+
+    .form-label {
+      font-size: 0.85em;
+      margin-bottom: 0.25rem;
+    }
+
+    .form-control-sm,
+    .form-select-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        border-radius: 0.2rem;
+    }
+
+    .invalid-feedback {
+        font-size: 0.75em;
+    }
+
+    .alert {
+      font-size: 0.9em;
+      svg {
+        width: 1.2em;
+        height: 1.2em;
+      }
+    }
+
+    .progress {
+        margin-bottom: 1rem;
+    }
+
+    .form-actions {
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+    }
+  }
+} 

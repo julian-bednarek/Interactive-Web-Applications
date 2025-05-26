@@ -1,0 +1,281 @@
+<div class="fill-details-form-container card shadow-sm">
+  <div class="card-header bg-light">
+    <h4 class="mb-0">Fill {{ role === RolesEnum.STUDENT ? 'Student' : 'Teacher' }} Details</h4>
+    <p class="text-muted mb-0 small">For Auth0 User ID: {{ auth0Id }}</p>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="detailsForm" (ngSubmit)="onSubmit()" *ngIf="detailsForm" novalidate>
+
+      <!-- Loading/Error States -->
+      <div *ngIf="isLoading" class="progress mb-3" style="height: 5px;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+      </div>
+      <div *ngIf="error" class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </svg>
+        <div><strong>Error:</strong> {{ error }}</div>
+      </div>
+
+      <!-- Common Person Fields Section -->
+      <fieldset class="mb-4 p-3 border rounded">
+        <legend class="legend-header float-none w-auto px-2"><small>Personal Information</small></legend>
+
+        <!-- First Name -->
+        <div class="row mb-2 align-items-center">
+          <label for="firstName" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">First Name <span class="text-danger">*</span></label>
+          <div class="col-sm-8">
+            <input type="text" id="firstName" formControlName="firstName" class="form-control form-control-sm text-end" [class.is-invalid]="detailsForm.get('firstName')?.invalid && detailsForm.get('firstName')?.touched">
+            <div *ngIf="detailsForm.get('firstName')?.errors?.['required'] && detailsForm.get('firstName')?.touched" class="invalid-feedback small">First Name is required.</div>
+          </div>
+        </div>
+
+        <!-- Last Name -->
+        <div class="row mb-2 align-items-center">
+          <label for="lastName" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Last Name <span class="text-danger">*</span></label>
+          <div class="col-sm-8">
+            <input type="text" id="lastName" formControlName="lastName" class="form-control form-control-sm text-end" [class.is-invalid]="detailsForm.get('lastName')?.invalid && detailsForm.get('lastName')?.touched">
+            <div *ngIf="detailsForm.get('lastName')?.errors?.['required'] && detailsForm.get('lastName')?.touched" class="invalid-feedback small">Last Name is required.</div>
+          </div>
+        </div>
+
+        <!-- Father's Name -->
+        <div class="row mb-2 align-items-center">
+          <label for="fatherName" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Father's Name <span class="text-muted">(Optional)</span></label>
+          <div class="col-sm-8">
+            <input type="text" id="fatherName" formControlName="fatherName" class="form-control form-control-sm text-end">
+          </div>
+        </div>
+
+        <!-- PESEL -->
+        <div class="row mb-2 align-items-center">
+            <label for="pesel" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">PESEL <span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+                <input type="text" id="pesel" formControlName="pesel" class="form-control form-control-sm text-end" [class.is-invalid]="detailsForm.get('pesel')?.invalid && detailsForm.get('pesel')?.touched">
+                <div *ngIf="detailsForm.get('pesel')?.errors?.['required'] && detailsForm.get('pesel')?.touched" class="invalid-feedback small">PESEL is required.</div>
+                <div *ngIf="detailsForm.get('pesel')?.errors?.['pattern'] && detailsForm.get('pesel')?.touched" class="invalid-feedback small">PESEL must be 11 digits.</div>
+            </div>
+        </div>
+
+        <!-- Place of Birth -->
+        <div class="row mb-2 align-items-center">
+            <label for="placeOfBirth" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Place of Birth <span class="text-danger">*</span></label>
+             <div class="col-sm-8">
+                <input type="text" id="placeOfBirth" formControlName="placeOfBirth" class="form-control form-control-sm text-end" [class.is-invalid]="detailsForm.get('placeOfBirth')?.invalid && detailsForm.get('placeOfBirth')?.touched">
+                <div *ngIf="detailsForm.get('placeOfBirth')?.errors?.['required'] && detailsForm.get('placeOfBirth')?.touched" class="invalid-feedback small">Place of Birth is required.</div>
+            </div>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="row mb-2 align-items-center">
+            <label for="phoneNumber" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Phone Number <span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+                <input type="text" id="phoneNumber" formControlName="phoneNumber" class="form-control form-control-sm text-end" [class.is-invalid]="detailsForm.get('phoneNumber')?.invalid && detailsForm.get('phoneNumber')?.touched">
+                <div *ngIf="detailsForm.get('phoneNumber')?.errors?.['required'] && detailsForm.get('phoneNumber')?.touched" class="invalid-feedback small">Phone Number is required.</div>
+            </div>
+        </div>
+
+        <!-- eDelivery Mail -->
+         <div class="row mb-2 align-items-center">
+            <label for="eDeliveryMail" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">eDelivery Mail <span class="text-muted">(Optional)</span></label>
+            <div class="col-sm-8">
+                <input type="email" id="eDeliveryMail" formControlName="eDeliveryMail" class="form-control form-control-sm text-end" [class.is-invalid]="detailsForm.get('eDeliveryMail')?.invalid && detailsForm.get('eDeliveryMail')?.touched">
+                <div *ngIf="detailsForm.get('eDeliveryMail')?.errors?.['email'] && detailsForm.get('eDeliveryMail')?.touched" class="invalid-feedback small">Please enter a valid email address.</div>
+            </div>
+        </div>
+
+        <!-- Faculty -->
+        <div class="row mb-2 align-items-center">
+            <label for="facultyId" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Faculty <span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+                <select id="facultyId" formControlName="facultyId" class="form-select form-select-sm text-end" [class.is-invalid]="(detailsForm.get('facultyId')?.invalid && detailsForm.get('facultyId')?.touched) || facultyError">
+                  <option [ngValue]="null" disabled>-- Select Faculty --</option>
+                  <ng-container *ngIf="faculties$ | async as faculties; else loadingFacultiesTpl">
+                    <option *ngFor="let faculty of faculties" [ngValue]="faculty.id">
+                      {{ faculty.name }}
+                    </option>
+                     <option [ngValue]="null" *ngIf="faculties.length === 0 && !isLoadingFaculties" disabled>No faculties found</option>
+                  </ng-container>
+                  <ng-template #loadingFacultiesTpl>
+                     <option [ngValue]="null" disabled>Loading faculties...</option>
+                  </ng-template>
+                </select>
+                <div *ngIf="detailsForm.get('facultyId')?.errors?.['required'] && detailsForm.get('facultyId')?.touched" class="invalid-feedback small">Faculty selection is required.</div>
+                <div *ngIf="facultyError && !detailsForm.get('facultyId')?.touched" class="invalid-feedback d-block small">
+                  {{ facultyError }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Address fields -->
+        <hr class="col-12 my-3">
+
+        <div class="row mb-2 align-items-center">
+          <label for="street" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Street <span class="text-danger">*</span></label>
+          <div class="col-sm-8 d-flex justify-content-end">
+            <div style="width: 75%;">
+              <input type="text" id="street" formControlName="street" class="form-control form-control-sm" [class.is-invalid]="detailsForm.get('street')?.invalid && detailsForm.get('street')?.touched">
+              <div *ngIf="detailsForm.get('street')?.errors?.['required'] && detailsForm.get('street')?.touched" class="invalid-feedback small">Street is required.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-2 align-items-center">
+          <label for="houseNumber" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">House No. <span class="text-danger">*</span></label>
+          <div class="col-sm-8 d-flex justify-content-end">
+            <div style="width: 75%;">
+              <input type="text" id="houseNumber" formControlName="houseNumber" class="form-control form-control-sm" [class.is-invalid]="detailsForm.get('houseNumber')?.invalid && detailsForm.get('houseNumber')?.touched">
+              <div *ngIf="detailsForm.get('houseNumber')?.errors?.['required'] && detailsForm.get('houseNumber')?.touched" class="invalid-feedback small">Required.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-2 align-items-center">
+          <label for="flatNumber" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Flat No. <span class="text-muted">(Opt.)</span></label>
+          <div class="col-sm-8 d-flex justify-content-end">
+            <div style="width: 75%;">
+              <input type="number" id="flatNumber" formControlName="flatNumber" class="form-control form-control-sm">
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-2 align-items-center">
+          <label for="postalCode" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Postal Code <span class="text-danger">*</span></label>
+          <div class="col-sm-8 d-flex justify-content-end">
+            <div style="width: 75%;">
+              <input type="text" id="postalCode" formControlName="postalCode" placeholder="XX-XXX" class="form-control form-control-sm" [class.is-invalid]="detailsForm.get('postalCode')?.invalid && detailsForm.get('postalCode')?.touched">
+              <div *ngIf="detailsForm.get('postalCode')?.errors?.['required'] && detailsForm.get('postalCode')?.touched" class="invalid-feedback small">Postal Code is required.</div>
+              <div *ngIf="detailsForm.get('postalCode')?.errors?.['pattern'] && detailsForm.get('postalCode')?.touched" class="invalid-feedback small">Format must be XX-XXX.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- City -->
+        <div class="row mb-2 align-items-center">
+          <label for="city" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">City <span class="text-danger">*</span></label>
+          <div class="col-sm-8 d-flex justify-content-end">
+            <div style="width: 75%;">
+              <input type="text" id="city" formControlName="city" class="form-control form-control-sm" [class.is-invalid]="detailsForm.get('city')?.invalid && detailsForm.get('city')?.touched">
+              <div *ngIf="detailsForm.get('city')?.errors?.['required'] && detailsForm.get('city')?.touched" class="invalid-feedback small">City is required.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-2 align-items-center">
+          <label for="voivodeship" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Voivodeship <span class="text-danger">*</span></label>
+          <div class="col-sm-8 d-flex justify-content-end">
+            <div style="width: 75%;">
+              <input type="text" id="voivodeship" formControlName="voivodeship" class="form-control form-control-sm" [class.is-invalid]="detailsForm.get('voivodeship')?.invalid && detailsForm.get('voivodeship')?.touched">
+              <div *ngIf="detailsForm.get('voivodeship')?.errors?.['required'] && detailsForm.get('voivodeship')?.touched" class="invalid-feedback small">Voivodeship is required.</div>
+            </div>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <!-- Role Specific Fields Section -->
+      <ng-container [ngSwitch]="role">
+
+        <!-- Student Fields -->
+        <ng-container *ngSwitchCase="RolesEnum.STUDENT">
+          <fieldset class="mb-4 p-3 border rounded">
+            <legend class="legend-header float-none w-auto px-2"><small>Student Information</small></legend>
+             <!-- Index Number -->
+            <div class="row mb-2 align-items-center">
+                <label for="indexNumber" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Index Number <span class="text-danger">*</span></label>
+                <div class="col-sm-8">
+                    <input type="text" id="indexNumber" formControlName="indexNumber" class="form-control form-control-sm text-end" [class.is-invalid]="detailsForm.get('indexNumber')?.invalid && detailsForm.get('indexNumber')?.touched">
+                    <div *ngIf="detailsForm.get('indexNumber')?.errors?.['required'] && detailsForm.get('indexNumber')?.touched" class="invalid-feedback small">Index Number is required.</div>
+                    <div *ngIf="detailsForm.get('indexNumber')?.errors?.['pattern'] && detailsForm.get('indexNumber')?.touched" class="invalid-feedback small">Index Number must be 6 digits.</div>
+                </div>
+            </div>
+             <!-- Field of Study ID -->
+            <div class="row mb-2 align-items-center">
+                 <label for="fieldOfStudyId" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Field of Study <span class="text-danger">*</span></label>
+                 <div class="col-sm-8">
+                    <select 
+                        id="fieldOfStudyId" 
+                        formControlName="fieldOfStudyId" 
+                        class="form-select form-select-sm" 
+                        [class.is-invalid]="detailsForm.get('fieldOfStudyId')?.invalid && detailsForm.get('fieldOfStudyId')?.touched"
+                        aria-describedby="fosHelp fosError">
+                        
+                        <option [ngValue]="null" disabled>-- Select Field of Study --</option>
+                        
+                        <ng-container *ngIf="!(fieldsOfStudy$ | async) && isLoadingFos">
+                             <option [ngValue]="null" disabled>Loading Fields of Study...</option>
+                        </ng-container>
+
+                        <ng-container *ngIf="fieldsOfStudy$ | async as fieldsOfStudy">
+                            <option *ngFor="let fos of fieldsOfStudy" [ngValue]="fos.fieldOfStudyId">
+                                {{ fos.name }} ({{ fos.degree }} - {{ fos.faculty }})
+                            </option>
+                        </ng-container>
+
+                        <ng-container *ngIf="!(fieldsOfStudy$ | async) && !isLoadingFos && fosError">
+                             <option [ngValue]="null" disabled>Error loading Fields of Study</option>
+                        </ng-container>
+                         <ng-container *ngIf="(fieldsOfStudy$ | async)?.length === 0 && !isLoadingFos && !fosError">
+                             <option [ngValue]="null" disabled>No Fields of Study available</option>
+                        </ng-container>
+                    </select>
+                    <div *ngIf="fosError" id="fosHelp" class="form-text text-danger small">{{ fosError }}</div>
+                    
+                    <div *ngIf="detailsForm.get('fieldOfStudyId')?.errors?.['required'] && detailsForm.get('fieldOfStudyId')?.touched" id="fosError" class="invalid-feedback small">Field of Study is required.</div>
+                </div>
+            </div>
+            <!-- Semester -->
+            <div class="row mb-2 align-items-center">
+                <label for="semester" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Semester <span class="text-danger">*</span></label>
+                 <div class="col-sm-8">
+                    <input type="number" id="semester" formControlName="semester" class="form-control form-control-sm text-end" [class.is-invalid]="detailsForm.get('semester')?.invalid && detailsForm.get('semester')?.touched">
+                    <div *ngIf="detailsForm.get('semester')?.errors?.['required'] && detailsForm.get('semester')?.touched" class="invalid-feedback small">Semester is required.</div>
+                    <div *ngIf="detailsForm.get('semester')?.errors?.['min'] && detailsForm.get('semester')?.touched" class="invalid-feedback small">Semester must be positive.</div>
+                </div>
+            </div>
+            <!-- Deposit Number -->
+            <div class="row mb-2 align-items-center">
+                <label for="depositNumber" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Deposit Number <span class="text-danger">*</span></label>
+                 <div class="col-sm-8">
+                    <input type="text" id="depositNumber" formControlName="depositNumber" class="form-control form-control-sm text-end" [class.is-invalid]="detailsForm.get('depositNumber')?.invalid && detailsForm.get('depositNumber')?.touched">
+                    <div *ngIf="detailsForm.get('depositNumber')?.errors?.['required'] && detailsForm.get('depositNumber')?.touched" class="invalid-feedback small">Deposit Number is required.</div>
+                </div>
+            </div>
+          </fieldset>
+        </ng-container>
+
+        <!-- Teacher Fields -->
+        <ng-container *ngSwitchCase="RolesEnum.TEACHER">
+          <fieldset class="mb-4 p-3 border rounded">
+            <legend class="legend-header float-none w-auto px-2"><small>Teacher Information</small></legend>
+             <!-- Academic Title -->
+             <div class="row mb-2 align-items-center">
+                 <label for="academicTitle" class="col-sm-4 col-form-label col-form-label-sm text-sm-end">Academic Title <span class="text-danger">*</span></label>
+                 <div class="col-sm-8">
+                    <input type="text" id="academicTitle" formControlName="academicTitle" class="form-control form-control-sm text-end" [class.is-invalid]="detailsForm.get('academicTitle')?.invalid && detailsForm.get('academicTitle')?.touched">
+                    <div *ngIf="detailsForm.get('academicTitle')?.errors?.['required'] && detailsForm.get('academicTitle')?.touched" class="invalid-feedback small">Academic Title is required.</div>
+                </div>
+            </div>
+          </fieldset>
+        </ng-container>
+
+      </ng-container>
+
+      <!-- Form Actions -->
+      <div class="form-actions d-flex justify-content-end gap-2 pt-3 mt-5 border-top">
+        <button type="button" class="btn btn-sm btn-secondary" (click)="onCancel()" [disabled]="isLoading">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-sm btn-primary" [disabled]="detailsForm.invalid || isLoading || isLoadingFaculties">
+          <span *ngIf="!isLoading">Submit Details</span>
+          <span *ngIf="isLoading">
+            <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+            Submitting...
+          </span>
+        </button>
+      </div>
+
+    </form>
+    <div *ngIf="!detailsForm" class="alert alert-warning mt-3">Initializing form...</div>
+  </div>
+</div> 

@@ -1,0 +1,186 @@
+/* Styles for ManageStudentSubjectsComponent */
+
+.container {
+  padding: 1rem;
+  background-color: #FFFFFF;
+  border-radius: 0.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); // Add shadow
+}
+
+// Restore :host styles for modal appearance
+:host {
+  display: block;
+  background-color: #FFFFEB; // Updated background color
+  padding: 1.5rem 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); // Add shadow
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+
+  h4 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #212529; // Darker heading color
+  }
+
+  .student-info {
+    font-size: 0.9em;
+    color: #6c757d;
+  }
+}
+
+.modal-body {
+  flex-grow: 1;
+  overflow-y: auto; // Allow scrolling if content overflows
+  margin-bottom: 1rem;
+  padding-right: 0.5rem; // Add some padding for scrollbar
+}
+
+.current-subjects,
+.add-subject {
+  margin-bottom: 1.5rem;
+}
+
+h5 {
+  font-size: 1.1rem;
+  font-weight: 600; // Make slightly bolder
+  margin-bottom: 0.75rem;
+  color: #212529; // Darker heading color
+}
+
+.subject-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #dee2e6; // Use a slightly darker border
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+    // background-color: #f8f9fa; // REMOVED light grey background
+
+    .subject-details {
+      flex-grow: 1;
+      margin-right: 1rem;
+      font-size: 0.95em;
+      color: #212529; // Ensure text is dark
+      word-break: break-word;
+      background-color: #f8f9fa;
+    }
+
+    .amount {
+      font-family: monospace;
+    }
+
+    // Button styling relies on global Bootstrap .btn-danger
+  }
+}
+
+.add-subject-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+
+  .form-select {
+    flex-grow: 1;
+  }
+}
+
+.loading-indicator,
+.error-message {
+  padding: 1rem;
+  text-align: center;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.loading-indicator {
+  color: #6c757d;
+  background-color: #f8f9fa;
+}
+
+.error-message {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  border-top: 1px solid #dee2e6;
+  padding-top: 1rem;
+
+  .btn-secondary {
+    padding: 0.25rem;
+    width: 5rem;
+    background-color: #FFFFEB !important; // REMOVED
+    color: black !important; // REMOVED
+    border: 1px solid #676767;
+    border-radius: 0.25rem;
+  }
+
+  .btn-secondary:hover {
+    background-color: #DDDDC8 !important;
+    color: black !important;
+  }
+}
+
+.current-subjects {
+  margin-bottom: 1.5rem;
+
+  h5 {
+    // ... h5 styles ...
+  }
+
+  .subject-list {
+    // ... subject-list styles ...
+  }
+
+  // Styling for the placeholder text when no subjects are assigned
+  p.text-muted.fst-italic {
+    background-color: #f8f9fa; // Light background like list items
+    border: 1px dashed #dee2e6; // Dashed border to indicate placeholder
+    padding: 1rem;
+    text-align: center;
+    border-radius: 0.25rem;
+    margin-top: 0.5rem; // Add some margin below the heading
+    font-size: 0.9em;
+  }
+}
+
+.add-subject {
+
+  // Style for the 'No available subjects' text placeholder
+  // Assuming it's a direct child paragraph within .add-subject
+  // (Check HTML if this selector doesn't work)
+  >p:not(.error-message) {
+    // Target paragraphs that aren't error messages
+    background-color: #f8f9fa; // Keep a subtle background for distinction
+    border: 1px dashed #dee2e6;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 0.25rem;
+    margin-top: 0.5rem;
+    font-size: 0.9em;
+    color: #6c757d; // Muted text color
+  }
+}

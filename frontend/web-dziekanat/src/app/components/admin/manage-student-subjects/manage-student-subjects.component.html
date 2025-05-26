@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="modal-header">
+    <div>
+      <h4>Manage Subjects</h4>
+      <div class="student-info" *ngIf="student">
+        Student: {{ student.firstName }} {{ student.lastName }} (Index: {{ student.indexNumber }})
+      </div>
+    </div>
+    <!-- Removed btn-close button -->
+    <!-- <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button> -->
+  </div>
+  
+  <div class="modal-body">
+    <!-- Loading for initial current subjects or manual retry -->
+    <div *ngIf="isLoadingCurrent" class="loading-indicator">
+      <span class="spinner-border spinner-border-sm"></span> Loading student's subjects...
+    </div>
+  
+    <!-- Loading for the list of all subjects (passed from parent) -->
+    <div *ngIf="isLoadingAllSubjects && !isLoadingCurrent" class="loading-indicator">
+      <span class="spinner-border spinner-border-sm"></span> Loading available subjects list...
+    </div>
+  
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+      <!-- Use loadCurrentSubjects for retry -->
+      <button class="btn btn-sm btn-secondary ms-2" (click)="loadCurrentSubjects()">Retry</button> 
+    </div>
+  
+    <!-- Display content only when both loading states are false and no error -->
+    <ng-container *ngIf="!isLoading && !error">
+      <!-- Current Subjects List -->
+      <div class="current-subjects">
+        <h5>Current Subjects</h5>
+        <ng-container *ngIf="currentSubjects.length > 0; else noCurrentSubjects">
+          <ul class="subject-list">
+            <li *ngFor="let subject of currentSubjects">
+              <span class="subject-details">
+                {{ subject.name }} ({{ subject.code }})
+                <small *ngIf="subject.teacherName" class="text-muted d-block"> - {{ subject.teacherName }}</small>
+              </span>
+              <button class="btn btn-danger btn-sm" (click)="removeSubject(subject.code)" [disabled]="isUpdating">
+                &times; Remove
+              </button>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-template #noCurrentSubjects>
+          <p class="text-muted fst-italic">Student is not assigned to any subjects.</p>
+        </ng-template>
+      </div>
+  
+      <!-- Add New Subject Section -->
+      <div class="add-subject">
+        <h5>Add Subject</h5>
+        <div *ngIf="availableSubjects.length > 0; else noAvailableSubjects" class="add-subject-controls">
+          <select class="form-select form-select-sm" [(ngModel)]="selectedSubjectCodeToAdd" [disabled]="isUpdating">
+            <option [ngValue]="null" disabled>-- Select a subject to add --</option>
+            <!-- Populate from availableSubjects -->
+            <option *ngFor="let subject of availableSubjects" [value]="subject.code">
+              {{ subject.name }} ({{ subject.code }})
+               <span *ngIf="subject.teacherName"> - {{ subject.teacherName }}</span>
+            </option>
+          </select>
+          <button class="btn btn-success btn-sm" (click)="addSubject()" [disabled]="!selectedSubjectCodeToAdd || isUpdating">
+            Add
+          </button>
+        </div>
+        <ng-template #noAvailableSubjects>
+          <p class="text-muted fst-italic">No available subjects to add (or all subjects are already assigned).</p>
+        </ng-template>
+      </div>
+    </ng-container>
+  
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()" [disabled]="isUpdating">Close</button>
+  </div> 
+</div>

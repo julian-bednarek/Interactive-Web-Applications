@@ -1,0 +1,65 @@
+<mat-card class="bank-account-card">
+  <div class="section-header">Bank Account Information</div>
+  <mat-card-content>
+    <div *ngIf="isLoadingData" class="loading-indicator">Loading bank account data...</div>
+    <div *ngIf="fetchError && !isLoadingData" class="error-message">{{ fetchError }}</div>
+
+    <ng-container *ngIf="bankAccountData && !isLoadingData && !fetchError; else noData">
+
+      <div class="account-section">
+        <div class="label">University Deposit Account:</div>
+        <div class="value account-number">{{ bankAccountData.depositAccount || 'Not Provided' }}</div>
+        <div class="description">Use this account for tuition/fee payments. Include your student index in the
+          description.</div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="account-section withdrawal-section">
+        <div class="label">Withdrawal Account (for refunds/stipends):</div>
+
+        <div class="withdrawal-content">
+          <div class="input-wrapper">
+            <input type="text" class="withdrawal-input form-control-basic"
+              placeholder="Enter bank account number (26 digits)" aria-label="Withdrawal Account Number"
+              [(ngModel)]="bankAccountData.withdrawalAccount" (ngModelChange)="validateWithdrawalAccount($event)"
+              [class.is-invalid]="!isWithdrawalAccountValid" [disabled]="!editMode || isSaving"
+              name="withdrawalAccountInput">
+            <div *ngIf="!isWithdrawalAccountValid && validationErrorMessage" class="validation-error">
+              {{ validationErrorMessage }}
+            </div>
+          </div>
+
+          <div class="withdrawal-actions">
+            <button type="button" class="btn btn-secondary" *ngIf="!editMode" (click)="toggleEditMode()"
+              title="Edit Account" [disabled]="isSaving"> Edit
+            </button>
+
+            <ng-container *ngIf="editMode">
+              <button type="button" class="btn btn-primary" (click)="saveWithdrawalAccount()" title="Save Account"
+                [disabled]="isSaving || !isWithdrawalAccountValid">
+                {{ isSaving ? 'Saving...' : 'Save' }}
+              </button>
+              <button type="button" class="btn btn-light" (click)="toggleEditMode()" title="Cancel Edit"
+                [disabled]="isSaving">
+                Cancel
+              </button>
+            </ng-container>
+
+            <mat-spinner *ngIf="isSaving" diameter="24" class="action-spinner"></mat-spinner>
+          </div>
+        </div>
+
+        <div *ngIf="saveErrorMessage" class="alert alert-danger error-message-box mt-2" role="alert">
+          <mat-icon color="warn" class="error-icon">warning</mat-icon>
+          <span>{{ saveErrorMessage }}</span>
+        </div>
+      </div>
+
+    </ng-container>
+
+    <ng-template #noData>
+      <div *ngIf="!isLoadingData && !fetchError" class="no-data-message">Bank account information not available.</div>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

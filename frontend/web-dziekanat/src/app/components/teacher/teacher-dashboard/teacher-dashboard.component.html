@@ -1,0 +1,25 @@
+<div class="teacher-dashboard">
+  <app-dashboard-nav title="Teacher Dashboard" [navItems]="teacherNavItems" [isMobileMenuOpen]="isMobileMenuOpen"
+    (mobileMenuToggle)="isMobileMenuOpen = $event" (logoutEvent)="logout()">
+  </app-dashboard-nav>
+
+  <div class="content-area">
+    <div class="section-content">
+      <button *ngIf="selectedSubject" (click)="clearSelectedSubject()" class="btn btn-primary mb-3 mt-3">Back to
+        Courses</button>
+      <app-dynamic-table *ngIf="!selectedSubject && !selectedStudent" [data]="subjects" [columns]="subjectColumns"
+        [actions]="subjectActions" (actionClick)="onActionClicked($event)" [isLoading]="isLoading"
+        idKey="code"></app-dynamic-table>
+
+      <app-dynamic-table *ngIf="selectedSubject as subject" [data]="subject.students" [columns]="studentColumns"
+        [actions]="studentActions" (actionClick)="onActionClicked($event)" [isLoading]="isLoading"
+        idKey="studentIndexNumber"></app-dynamic-table>
+
+      <div *ngIf="selectedStudent">
+        <app-dynamic-form [formConfig]="gradeFormConfig" (formSubmit)="onGradeSubmit($event)" [isLoading]="isLoading"
+          (formSubmit)="onFormCancel($event)">
+        </app-dynamic-form>
+      </div>
+    </div>
+  </div>
+</div>

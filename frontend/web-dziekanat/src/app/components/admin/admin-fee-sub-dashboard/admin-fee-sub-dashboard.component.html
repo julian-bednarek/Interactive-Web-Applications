@@ -1,0 +1,42 @@
+<div class="fee-sub-dashboard">
+
+  <div class="dashboard-header">
+    <h2>Manage Fees</h2>
+    <app-add-button *ngIf="!isEditing && !isLoading" [buttonText]="'Add New Fee'" (addClick)="initNewFee()"
+      [disabled]="isLoadingAction || isLoadingFaculties" class="ms-auto">
+    </app-add-button>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading && !isEditing" class="loading-indicator">Loading data...</div>
+
+  <!-- Error Message -->
+  <div *ngIf="error && !isEditing" class="error-message">
+    <p>{{ error }}</p>
+    <button (click)="refreshData()" class="btn btn-secondary btn-sm">Retry</button>
+  </div>
+
+  <!-- Content Area (Form or List) -->
+  <div class="dashboard-content">
+
+    <!-- Dynamic Add/Edit Form -->
+    <div *ngIf="isEditing && feeFormConfig">
+      <app-dynamic-form [formConfig]="feeFormConfig" [initialData]="selectedItem" [isLoading]="isLoadingAction"
+        (formSubmit)="saveFee($event)" (formCancel)="cancelEdit()">
+      </app-dynamic-form>
+      <!-- Display form-specific error -->
+      <div *ngIf="error && isEditing" class="error-message mt-3">
+        <p>{{ error }}</p>
+      </div>
+    </div>
+
+    <!-- Fee List (Dynamic Table) -->
+    <div *ngIf="!isEditing && !isLoadingFees && !isLoadingFaculties">
+      <app-dynamic-table [data]="fees$ | async" [columns]="tableColumns" [actions]="tableActions" [idKey]="'id'"
+        [isLoading]="isLoadingFees" noDataMessage="No fees found." (actionClick)="handleTableAction($event)">
+      </app-dynamic-table>
+    </div>
+
+  </div> <!-- End dashboard-content -->
+
+</div>

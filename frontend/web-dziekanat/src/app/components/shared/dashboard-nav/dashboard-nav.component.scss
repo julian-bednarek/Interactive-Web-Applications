@@ -1,0 +1,143 @@
+@use 'sass:color';
+@use '../../../../styles.scss' as *;
+
+.dashboard-container {
+  display: contents; // So the component doesn't interfere with parent layout
+}
+
+// Mobile header with hamburger menu
+.mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $primary-color;
+  color: white;
+  padding: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .menu-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  @media (min-width: 768px) {
+    display: none; // Hide on desktop
+  }
+}
+
+.sidebar {
+  background-color: $primary-color;
+  color: white;
+  
+  // Mobile view
+  @media (max-width: 767px) {
+    position: fixed;
+    top: 60px; // Height of mobile header
+    left: 0;
+    width: 80%;
+    max-width: 300px;
+    height: calc(100vh - 60px);
+    z-index: 99;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+
+    &.mobile-expanded {
+      transform: translateX(0);
+    }
+  }
+  
+  // Desktop view
+  @media (min-width: 768px) {
+    width: 250px;
+    min-height: 100vh;
+  }
+}
+
+.dashboard-header {
+  padding: 20px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+}
+
+.desktop-only {
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.dashboard-nav {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: color.adjust($primary-color, $lightness: -5%);
+    }
+
+    &.active {
+      background-color: $accent-color;
+    }
+  }
+
+  .nav-icon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+}
+
+.logout-container {
+  padding: 15px;
+  
+  @media (max-width: 767px) {
+    margin-bottom: 20px; // Add space at bottom for mobile
+  }
+  
+  @media (min-width: 768px) {
+    margin-top: auto;
+  }
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: color.adjust(rgba(255, 255, 255, 0.1), $alpha: 0.1);
+  }
+} 

@@ -1,0 +1,84 @@
+<div class="manage-fees-modal container">
+  <div class="modal-header">
+    <h4>Manage Fees</h4>
+    <span class="student-info" *ngIf="student">Student: {{ student.firstName }} {{ student.lastName }} (Index: {{
+      student.indexNumber }})</span>
+    <!-- Close button could be added here if needed, but footer has one -->
+  </div>
+
+  <div class="modal-body">
+    <!-- Loading Indicator -->
+    <div *ngIf="isLoading" class="loading-indicator">
+      Loading fee information...
+    </div>
+
+    <!-- Error Display -->
+    <div *ngIf="error && !isLoading" class="error-message">
+      <p>{{ error }}</p>
+      <!-- Add retry logic if desired -->
+    </div>
+
+    <!-- Content Area -->
+    <div *ngIf="!isLoading && !error">
+      <!-- Current Fees Section -->
+      <div class="current-fees mb-4">
+        <h5>Current Fees</h5>
+        <ng-container *ngIf="currentFees.length > 0; else noCurrentFees">
+          <ul class="fee-list list-group list-group-flush">
+            <li *ngFor="let fee of currentFees"
+              class="list-group-item d-flex justify-content-between align-items-center">
+              <div class="fee-details">
+                <span class="description">{{ fee.description }} </span>
+                <span class="amount ms-2">({{ fee.amount | currency:'PLN':'symbol':'1.2-2':'pl-PL' }}) </span>
+                <span *ngIf="fee.paid" class="badge bg-success ms-2">Paid</span>
+                <span *ngIf="!fee.paid" class="badge bg-warning text-dark ms-2">Unpaid</span>
+              </div>
+              <div class="fee-actions btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-success" *ngIf="!fee.paid" (click)="markAsPaid(fee.id)"
+                  [disabled]="isUpdating">
+                  Mark Paid
+                </button>
+                <button type="button" class="btn btn-danger" (click)="removeFee(fee.id)" [disabled]="isUpdating">
+                  Remove
+                </button>
+              </div>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-template #noCurrentFees>
+          <p class="text-muted fst-italic">Student has no assigned fees.</p>
+        </ng-template>
+      </div>
+
+      <!-- Add Fee Section -->
+      <div class="add-fee">
+        <h5>Add Fee</h5>
+        <ng-container *ngIf="availableFeesToAdd.length > 0; else noFeesToAdd">
+          <div class="add-fee-controls d-flex gap-2">
+            <select class="form-select form-select-sm flex-grow-1" [(ngModel)]="selectedFeeIdToAdd"
+              [disabled]="isUpdating">
+              <option [ngValue]="null" disabled>-- Select a fee to add --</option>
+              <option *ngFor="let feeDef of availableFeesToAdd" [value]="feeDef.id">
+                {{ feeDef.description }} ({{ feeDef.amount | currency:'PLN':'symbol':'1.2-2':'pl-PL' }})
+              </option>
+            </select>
+            <button class="btn btn-primary btn-sm flex-shrink-0" (click)="addSelectedFee()"
+              [disabled]="!selectedFeeIdToAdd || isUpdating">
+              Add Fee
+            </button>
+          </div>
+        </ng-container>
+        <ng-template #noFeesToAdd>
+          <p class="text-muted fst-italic">No available fees to add (or all defined fees are already assigned).</p>
+        </ng-template>
+      </div>
+
+    </div> <!-- End Content Area -->
+
+  </div> <!-- End Modal Body -->
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()" [disabled]="isUpdating">Close</button>
+  </div>
+
+</div>

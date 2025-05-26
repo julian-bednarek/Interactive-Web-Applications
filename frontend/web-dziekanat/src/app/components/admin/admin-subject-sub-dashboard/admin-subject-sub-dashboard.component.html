@@ -1,0 +1,57 @@
+<div class="subject-sub-dashboard">
+
+  <!-- Dashboard Header -->
+  <div class="dashboard-header">
+    <h2>Manage Subjects</h2>
+    <app-add-button 
+        *ngIf="!isEditing && !isLoading" 
+        [buttonText]="'Add New Subject'" 
+        (addClick)="initNewSubject()"
+        [disabled]="isLoadingAction || isLoadingTeachers" 
+        class="ms-auto">
+    </app-add-button>
+  </div>
+
+  <!-- Loading Indicator (Table/General) -->
+  <div *ngIf="isLoading && !isEditing" class="loading-indicator">Loading data...</div>
+
+  <!-- Error Message (General/Table) -->
+  <div *ngIf="error && !isEditing" class="error-message">
+    <p>{{ error }}</p>
+    <button (click)="refreshData()" class="btn btn-secondary btn-sm">Retry</button>
+  </div>
+
+  <!-- Content Area (Form or List) -->
+  <div class="dashboard-content">
+
+    <!-- Dynamic Add/Edit Form -->
+    <div *ngIf="isEditing && subjectFormConfig">
+      <app-dynamic-form
+          [formConfig]="subjectFormConfig"
+          [initialData]="selectedItem"
+          [isLoading]="isLoadingAction"
+          (formSubmit)="saveSubject($event)"
+          (formCancel)="cancelEdit()">
+      </app-dynamic-form>
+      <!-- Display form-specific error -->
+      <div *ngIf="error && isEditing" class="error-message mt-3">
+          <p>{{ error }}</p>
+      </div>
+    </div>
+
+    <!-- Subject List (Dynamic Table) -->
+    <div *ngIf="!isEditing">
+        <app-dynamic-table
+            [data]="subjects$ | async"
+            [columns]="tableColumns"
+            [actions]="tableActions"
+            [idKey]="'code'" 
+            [isLoading]="isLoadingSubjects"
+            noDataMessage="No subjects found."
+            (actionClick)="handleTableAction($event)">
+        </app-dynamic-table>
+    </div>
+
+  </div> <!-- End dashboard-content -->
+
+</div>

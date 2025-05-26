@@ -1,0 +1,271 @@
+// Copy necessary base styles/placeholders here (or ensure they are globally available)
+@use "sass:color"; // Keep this if darken/adjust is used
+
+// --- Reusable Placeholder Selectors (Copied) --- //
+
+// Define CSS Variables for easy theming/reuse
+// (Consider moving to styles.scss or :root if truly global)
+:host {
+  --dashboard-text-color: #333;
+  --dashboard-muted-color: #6c757d;
+  --dashboard-primary-color: #0d6efd;
+  --dashboard-secondary-color: #6c757d;
+  --dashboard-success-color: #198754;
+  --dashboard-danger-color: #dc3545;
+  --dashboard-warning-color: #ffc107;
+  --dashboard-info-color: #0dcaf0;
+  --dashboard-light-bg: #f8f9fa;
+  --dashboard-dark-bg: #212529;
+  --dashboard-card-bg: #fff;
+  --dashboard-card-border: #dee2e6;
+  --dashboard-table-header-bg: #e9ecef;
+  --dashboard-table-border: #dee2e6;
+  --dashboard-table-stripe-bg: rgba(0, 0, 0, 0.03);
+  --dashboard-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --dashboard-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --dashboard-border-radius: 0.375rem;
+  --dashboard-spacing-unit: 1rem;
+
+  // Base colors as Sass variables for calculations
+  $primary-color: var(--dashboard-primary-color);
+  $secondary-color: var(--dashboard-secondary-color);
+  $success-color: var(--dashboard-success-color);
+  $danger-color: var(--dashboard-danger-color);
+
+  // Add CSS variables for hover states, calculated using Sass
+  // Ensure these Sass vars map correctly or define static colors here
+  --dashboard-primary-color-hover: #{color.adjust(#0d6efd, $lightness: -7%)};
+  --dashboard-secondary-color-hover: #{color.adjust(#6c757d, $lightness: -7%)};
+  --dashboard-success-color-hover: #{color.adjust(#198754, $lightness: -7%)};
+  --dashboard-danger-color-hover: #{color.adjust(#dc3545, $lightness: -7%)};
+
+  // Host layout
+  display: block;
+  width: 100%;
+}
+
+%dashboard-section {
+  padding: var(--dashboard-spacing-unit, 1.5rem);
+  background-color: var(--dashboard-bg, #f8f9fa);
+}
+
+%dashboard-header-area {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--dashboard-spacing-unit, 1.5rem);
+  padding-bottom: calc(var(--dashboard-spacing-unit, 1.5rem) * 0.75);
+  border-bottom: 1px solid var(--dashboard-border-color, #dee2e6);
+}
+
+%dashboard-title {
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin: 0;
+  color: var(--dashboard-title-color, #343a40);
+}
+
+%dashboard-content-area {
+  // Base styling for the content area below the header
+}
+
+%loading-state {
+  text-align: center;
+  padding: calc(var(--dashboard-spacing-unit, 1.5rem) * 2) 0;
+  color: var(--dashboard-muted-color, #6c757d);
+}
+
+%error-state {
+  border: 1px solid var(--dashboard-danger-color, #dc3545);
+  background-color: var(--dashboard-danger-bg, #f8d7da);
+  color: var(--dashboard-danger-color, #721c24);
+  padding: var(--dashboard-spacing-unit, 1.5rem);
+  border-radius: var(--dashboard-border-radius, 0.25rem);
+  margin-bottom: var(--dashboard-spacing-unit, 1.5rem);
+
+  p {
+    margin-bottom: 0.5rem;
+  }
+}
+
+%dashboard-card {
+  background-color: var(--dashboard-card-bg, #fff);
+  border: 1px solid var(--dashboard-card-border, #dee2e6);
+  border-radius: var(--dashboard-border-radius, 0.25rem);
+  box-shadow: var(--dashboard-shadow-sm, 0 .125rem .25rem rgba(0,0,0,.075));
+  margin-bottom: var(--dashboard-spacing-unit, 1.5rem);
+
+  .card-body {
+    padding: calc(var(--dashboard-spacing-unit, 1.5rem) * 1.25);
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: var(--dashboard-spacing-unit, 1.5rem);
+    color: var(--dashboard-text-color, #212529);
+  }
+}
+
+%dashboard-form-group {
+  margin-bottom: var(--dashboard-spacing-unit, 1rem);
+
+  label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    display: block;
+    font-size: 0.95em;
+    color: var(--dashboard-muted-color, #6c757d);
+  }
+
+  .form-control {
+     // Base Bootstrap styles apply
+  }
+
+  .invalid-feedback.d-block {
+       display: block !important;
+  }
+}
+
+%dashboard-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: calc(var(--dashboard-spacing-unit, 1.5rem) * 1.5);
+  padding-top: var(--dashboard-spacing-unit, 1.5rem);
+  border-top: 1px solid var(--dashboard-border-color, #dee2e6);
+}
+
+%dashboard-table { /* ... placeholder for table styles if needed ... */ }
+%dashboard-table-actions { /* ... placeholder for table actions if needed ... */ }
+%dashboard-sticky-header { /* ... placeholder for sticky header if needed ... */ }
+%dashboard-empty-list-message { /* ... placeholder for empty list message if needed ... */ }
+
+// Mixin for button sizes
+@mixin button-size-small {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: calc(var(--dashboard-border-radius) * 0.8);
+}
+@mixin button-size-regular {
+   padding: 0.375rem 0.75rem;
+   font-size: 1rem;
+   border-radius: var(--dashboard-border-radius);
+}
+
+// --- Base Button Styles (Copied) --- //
+.btn {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--dashboard-text-color);
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  border-radius: var(--dashboard-border-radius);
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
+  // Color Variants
+  &.btn-primary {
+    color: #fff;
+    background-color: var(--dashboard-primary-color);
+    border-color: var(--dashboard-primary-color);
+    &:hover { background-color: var(--dashboard-primary-color-hover); border-color: var(--dashboard-primary-color-hover); }
+  }
+  &.btn-secondary {
+    color: #fff;
+    background-color: var(--dashboard-secondary-color);
+    border-color: var(--dashboard-secondary-color);
+    &:hover { background-color: var(--dashboard-secondary-color-hover); border-color: var(--dashboard-secondary-color-hover); }
+  }
+  &.btn-success {
+    color: #fff;
+    background-color: var(--dashboard-success-color);
+    border-color: var(--dashboard-success-color);
+     &:hover { background-color: var(--dashboard-success-color-hover); border-color: var(--dashboard-success-color-hover); }
+  }
+   &.btn-danger {
+    color: #fff;
+    background-color: var(--dashboard-danger-color);
+    border-color: var(--dashboard-danger-color);
+     &:hover { background-color: var(--dashboard-danger-color-hover); border-color: var(--dashboard-danger-color-hover); }
+  }
+
+  // Size Variant
+  &.btn-sm {
+    @include button-size-small;
+  }
+}
+
+// --- Apply Styles to Subject Dashboard --- //
+.subject-sub-dashboard {
+  @extend %dashboard-section;
+
+  .dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--dashboard-spacing-unit, 1.5rem);
+    padding-bottom: calc(var(--dashboard-spacing-unit, 1.5rem) * 0.75);
+    border-bottom: 1px solid var(--dashboard-border-color, #dee2e6);
+
+    h2 {
+      @extend %dashboard-title;
+      margin-bottom: 0;
+    }
+  }
+
+  .dashboard-content {
+    @extend %dashboard-content-area;
+
+     .loading-indicator {
+       @extend %loading-state;
+     }
+
+     .error-message {
+       @extend %error-state;
+       button.btn-secondary {
+         // Basic styles handled by Bootstrap
+       }
+     }
+
+     // Style the wrapper containing the dynamic form
+     div > app-dynamic-form > .dynamic-form-container {
+        // Dynamic form has .card class, inherits %dashboard-card styles
+     }
+
+     // Style the wrapper containing the dynamic table
+     div > app-dynamic-table {
+        // Table styles handled within DynamicTableComponent
+     }
+  }
+}
+
+// --- Responsive Overrides (Example) --- //
+@media (max-width: 768px) {
+  .subject-sub-dashboard {
+    .dashboard-header {
+      flex-direction: column;
+      align-items: flex-start;
+      h2 {
+        margin-bottom: 0.75rem;
+      }
+      app-add-button.ms-auto { 
+        margin-left: 0 !important; // Override ms-auto
+        width: 100%;
+        // Button inside the component will center content due to its own styles
+      }
+    }
+  }
+}

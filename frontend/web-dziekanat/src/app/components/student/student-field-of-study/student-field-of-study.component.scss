@@ -1,0 +1,57 @@
+/* Styles for StudentFieldOfStudyComponent - Adopted from PersonalData */
+/* Using the same class names allows reusing styles */
+
+.personal-data-card {
+  margin: 1rem;
+}
+
+.data-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.section-header {
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #3f51b5;
+  /* Example: Use theme primary color */
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid #e0e0e0;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+}
+
+.data-item {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  /* Adjusted label width */
+  gap: 0.5rem 1rem;
+  padding: 0.5rem 0;
+  align-items: start;
+
+  dt {
+    font-weight: 500;
+    color: #495057;
+    grid-column: 1;
+  }
+
+  dd {
+    margin: 0;
+    color: #212529;
+    grid-column: 2;
+    word-break: break-word;
+    line-height: 1.4;
+  }
+}
+
+.no-data-message {
+  font-style: italic;
+  color: #6c757d;
+  padding: 1rem 0;
+  text-align: center;
+}

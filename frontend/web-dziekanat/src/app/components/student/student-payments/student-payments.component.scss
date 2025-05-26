@@ -1,0 +1,44 @@
+/* Styles for StudentPaymentsComponent */
+.payments-container {
+  padding: 1rem;
+}
+
+.semester-info {
+  margin-bottom: 1rem;
+  font-size: 1.1em;
+  font-weight: 500;
+  color: #495057;
+
+  .label {
+    margin-right: 0.5rem;
+  }
+
+  .value {
+    color: #212529;
+    font-weight: 600;
+  }
+}
+
+.field-of-study-info {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 0.95em;
+  color: #6c757d;
+
+  span {
+    margin-right: 1rem;
+  }
+}
+
+.no-data {
+  font-style: italic;
+  color: #6c757d;
+  padding: 1rem;
+}
+
+// Styles specifically for app-dynamic-table if needed for this context
+app-dynamic-table {
+  // Example: Add bottom margin
+  margin-bottom: 1rem;
+}

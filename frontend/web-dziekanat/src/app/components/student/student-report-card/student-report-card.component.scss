@@ -1,0 +1,182 @@
+/* Styles for StudentReportCardComponent - Adopted from PersonalData */
+@use '@angular/material' as mat;
+
+/* Import shared styles if applicable, or redefine */
+.personal-data-card {
+  // Reuse the main card class
+  margin: 1rem;
+}
+
+
+.section-header {
+  // Reuse section header style
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #3f51b5;
+  /* Example: Use theme primary color */
+  margin-bottom: 1rem;
+  /* Adjusted margin */
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+// Remove the old .semester-selector styles
+/*
+.semester-selector {
+  max-width: 250px;
+  margin-bottom: 2rem;
+
+  mat-form-field {
+    width: 100%;
+
+    // Increase padding inside the select trigger
+    ::ng-deep .mat-mdc-select-value {
+      padding-top: 0.5em; 
+      padding-bottom: 0.5em;
+    }
+    // Optional: Adjust arrow margin if needed
+    // ::ng-deep .mat-mdc-select-arrow-wrapper {
+    //   padding-right: 4px;
+    // }
+  }
+}
+*/
+
+// Add specific styles for the selector in this context if needed
+.report-card-semester-selector {
+  // Example: Align to the right within the card
+  display: block; // Make it block to allow margin auto
+  margin-left: auto;
+  margin-right: 0; // Reset right margin if centering was used before
+  margin-bottom: 1.5rem; // Adjust spacing if needed
+}
+
+.report-table-container {
+  margin-bottom: 1.5rem;
+  overflow-x: auto; // Handle potential horizontal scroll on small screens
+}
+
+table[mat-table] {
+  width: 100%;
+
+  // Consistent header style
+  .mat-mdc-header-cell {
+    font-weight: 500;
+    background-color: #f8f9fa; // Light background for header
+    color: #495057;
+  }
+
+  // Consistent cell style
+  .mat-mdc-cell {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-color: #eeeeee; // Use direct hex code for Grey 200
+    padding: 8px 12px;
+    color: #212529;
+    // Vertically align cell content
+    vertical-align: middle;
+  }
+
+  // Adjust specific column widths using flex for better distribution
+  .mat-column-name {
+    flex: 3; // Give more space to subject name
+    word-wrap: break-word; // Allow long names to wrap
+  }
+
+  .mat-column-code {
+    flex: 1;
+    text-align: center;
+  }
+
+  .mat-column-teacher {
+    flex: 2; // Moderate space for teacher
+    word-wrap: break-word;
+  }
+
+  .mat-column-ects,
+  .mat-column-finalGrade {
+    flex: 0.5; // Less space for ECTS and Grade
+    text-align: center;
+  }
+}
+
+// Zebra striping for the table
+table[mat-table] tbody tr:nth-child(even) {
+  background-color: #f8f9fa; // Light grey for even rows
+}
+
+table[mat-table] tbody tr:nth-child(odd) {
+  background-color: #ffffff; // White for odd rows
+}
+
+.report-summary {
+  margin-top: 2rem; // Increased top margin
+  padding: 1.5rem; // Add padding
+  border-top: 1px solid #e0e0e0;
+  font-size: 1.05em;
+
+  div {
+    margin-bottom: 0.5rem;
+    display: flex; // Use flex for label/value alignment
+    gap: 1rem;
+  }
+
+  .label {
+    font-weight: 500;
+    color: #495057;
+    flex-basis: 200px; // Fixed width for labels
+    flex-shrink: 0;
+  }
+
+  .value {
+    font-weight: 600;
+    color: #212529;
+  }
+}
+
+.no-data-message {
+  // Reuse no-data style
+  font-style: italic;
+  color: #6c757d;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+// Styles specifically for app-dynamic-table if needed for this context
+app-dynamic-table {
+  // Example: Add bottom margin
+  margin-bottom: 1rem;
+
+  // Example: Customize header background
+  // ::ng-deep thead {
+  //   background-color: #f0f0f0;
+  // }
+}
+
+.summary {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+  font-size: 1.05em;
+
+  div {
+    margin-bottom: 0.5rem;
+  }
+
+  .label {
+    font-weight: 500;
+    color: #495057;
+    display: inline-block;
+    width: 180px; // Adjust as needed
+  }
+
+  .value {
+    font-weight: 600;
+    color: #212529;
+  }
+}
+
+// Force solid background for the mat-select panel (dropdown options)
+::ng-deep .mat-mdc-select-panel {
+  background-color: #ffffff !important; // White background
+}

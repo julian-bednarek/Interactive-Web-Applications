@@ -1,0 +1,236 @@
+// Import shared variables/mixins if available (assuming a structure)
+// @import 'path/to/shared/styles';
+
+// --- Reusable Dashboard Placeholders (Copied/adapted from other dashboards for consistency) --- //
+%dashboard-section {
+  padding: var(--dashboard-spacing-unit, 1.5rem);
+  background-color: var(--dashboard-bg, #f8f9fa);
+}
+
+%dashboard-header-area {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--dashboard-spacing-unit, 1.5rem);
+  padding-bottom: calc(var(--dashboard-spacing-unit, 1.5rem) * 0.75);
+  border-bottom: 1px solid var(--dashboard-border-color, #dee2e6);
+}
+
+%dashboard-title {
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin: 0;
+  color: var(--dashboard-title-color, #343a40);
+}
+
+%dashboard-content-area {
+  // Base styling for the content area below the header
+}
+
+%loading-state {
+  text-align: center;
+  padding: calc(var(--dashboard-spacing-unit, 1.5rem) * 2) 0;
+  color: var(--dashboard-muted-color, #6c757d);
+}
+
+%error-state {
+  border: 1px solid var(--dashboard-danger-color, #dc3545);
+  background-color: var(--dashboard-danger-bg, #f8d7da);
+  color: var(--dashboard-danger-color, #721c24);
+  padding: var(--dashboard-spacing-unit, 1.5rem);
+  border-radius: var(--dashboard-border-radius, 0.25rem);
+  margin-bottom: var(--dashboard-spacing-unit, 1.5rem);
+
+  p {
+    margin-bottom: 0.5rem;
+  }
+}
+
+%dashboard-card {
+  background-color: var(--dashboard-card-bg, #fff);
+  border: 1px solid var(--dashboard-card-border, #dee2e6);
+  border-radius: var(--dashboard-border-radius, 0.25rem);
+  box-shadow: var(--dashboard-shadow-sm, 0 .125rem .25rem rgba(0, 0, 0, .075));
+  margin-bottom: var(--dashboard-spacing-unit, 1.5rem);
+
+  .card-body {
+    padding: calc(var(--dashboard-spacing-unit, 1.5rem) * 1.25);
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: var(--dashboard-spacing-unit, 1.5rem);
+    color: var(--dashboard-text-color, #212529);
+  }
+}
+
+%dashboard-form-group {
+  margin-bottom: var(--dashboard-spacing-unit, 1rem);
+
+  label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    display: block;
+    font-size: 0.95em;
+    color: var(--dashboard-muted-color, #6c757d);
+  }
+
+  // Input, Select, Textarea styles (Leverage Bootstrap via .form-control class)
+  .form-control {
+
+    // Base styles provided by Bootstrap
+    // Add overrides if needed
+    &:focus {
+      // Optional focus styles (Bootstrap handles this well usually)
+    }
+
+    &.is-invalid {
+      // Styling for invalid state (Bootstrap handles this)
+    }
+  }
+
+  .invalid-feedback {
+
+    // Styling provided by Bootstrap
+    &.d-block {
+      display: block !important; // Ensure visibility
+    }
+  }
+}
+
+%dashboard-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: calc(var(--dashboard-spacing-unit, 1.5rem) * 1.5);
+  padding-top: var(--dashboard-spacing-unit, 1.5rem);
+  border-top: 1px solid var(--dashboard-border-color, #dee2e6);
+}
+
+%dashboard-table {
+  /* ... placeholder for table styles if needed ... */
+}
+
+%dashboard-table-actions {
+  /* ... placeholder for table actions if needed ... */
+}
+
+%dashboard-sticky-header {
+  /* ... placeholder for sticky header if needed ... */
+}
+
+%dashboard-empty-list-message {
+  /* ... placeholder for empty list message if needed ... */
+}
+
+// Button styles (Leveraging Bootstrap classes like .btn, .btn-*) -
+// Only define custom button styles or overrides here.
+.btn {
+
+  // Base Bootstrap button styles apply
+  // Add custom styles if needed, e.g., icons
+  .icon {
+    margin-right: 0.35rem;
+  }
+}
+
+// Mixin for button sizes if needed (Bootstrap usually handles this)
+@mixin button-size-small {
+  /* ... */
+}
+
+@mixin button-size-regular {
+  /* ... */
+}
+
+
+// --- Apply Styles to FoS Dashboard --- //
+
+.fos-sub-dashboard {
+  @extend %dashboard-section;
+
+  // Apply styles to the NEW header structure
+  .dashboard-header {
+    @extend %dashboard-header-area;
+    justify-content: space-between;
+
+    h2 {
+      @extend %dashboard-title;
+      margin-bottom: 0; // Override default margin if needed
+    }
+
+    // Style the add button within the header
+    button.btn-success {
+      // Basic button styles are handled by Bootstrap classes
+      white-space: nowrap;
+
+      // Add specific icon styling if default isn't sufficient
+      .icon {
+        // e.g., font-size: 1em;
+      }
+    }
+  }
+
+  .dashboard-content {
+    @extend %dashboard-content-area;
+
+    // Apply loading/error states
+    .loading-indicator {
+      @extend %loading-state;
+    }
+
+    .error-message {
+      @extend %error-state;
+
+      // Style retry button within error message
+      button.btn-secondary {
+        // Basic styles handled by Bootstrap
+      }
+    }
+
+    // Style the container where the dynamic form will be placed
+    // The dynamic form itself has class="dynamic-form-container card"
+    // We target the wrapper div that contains app-dynamic-form
+    div>app-dynamic-form>.dynamic-form-container {
+      // Ensure it inherits card styles if needed (already has .card class)
+      // @extend %dashboard-card; // Probably not needed due to .card class
+
+      // Styles inside the form are handled by DynamicFormComponent's template/scss
+      // and Bootstrap classes, but overrides can go here if necessary.
+    }
+
+    // Style the container for the dynamic table
+    div>app-dynamic-table {
+      // Styles for the table are handled by DynamicTableComponent itself
+      // Add wrapper styles if needed
+    }
+  }
+}
+
+// --- Responsive Overrides (Example) --- //
+@media (max-width: 768px) {
+  .fos-sub-dashboard {
+    .dashboard-header {
+      flex-direction: column;
+      align-items: flex-start;
+
+      h2 {
+        margin-bottom: 0.75rem;
+      }
+
+      // Adjust layout for the new component if needed
+      app-add-button.ms-auto {
+        // Target the component if it has ms-auto
+        margin-left: 0 !important; // Override ms-auto
+        width: 100%;
+        // Button inside the component will center content due to its own styles
+      }
+    }
+
+    // Add other responsive adjustments as needed
+  }
+}
+
+// REMOVED previous button styles as they are now handled by AddButtonComponent
+// .dashboard-header .btn { ... }
+// .btn > .icon + *:not(.icon) { ... }

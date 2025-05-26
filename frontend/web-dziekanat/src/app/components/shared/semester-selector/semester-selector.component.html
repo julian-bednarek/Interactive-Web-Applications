@@ -1,0 +1,10 @@
+<div class="semester-selector-wrapper" *ngIf="availableSemesters && availableSemesters.length > 0">
+    <mat-form-field [appearance]="appearance">
+        <mat-label>{{ label }}</mat-label>
+        <mat-select [(ngModel)]="selectedSemester" (selectionChange)="onSelectionChangeInternal()">
+            <mat-option *ngFor="let semester of availableSemesters" [value]="semester">
+                Semester {{ semester }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

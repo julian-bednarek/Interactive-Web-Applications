@@ -1,0 +1,193 @@
+/*
+Styles for the Dynamic Form Component.
+
+Most styling should be inherited from the parent component's context
+and global Bootstrap styles, as the template uses standard classes
+like .card, .form-group, .form-label, .form-control, .btn.
+
+Add specific overrides or adjustments for the dynamic form itself here if needed.
+*/
+
+// Ensure validation feedback is block level for proper layout
+.invalid-feedback.d-block {
+  display: block !important;
+}
+
+// Adjust host or container styling if necessary (usually not needed if parents style .card)
+// :host .dynamic-form-container.card {
+//     margin-bottom: 1rem; 
+// } 
+
+// Import Bootstrap functions/variables if needed for calculations (optional)
+// @import "bootstrap/scss/functions";
+// @import "bootstrap/scss/variables";
+
+// Define some local variables for consistency
+$form-padding: 1.5rem;
+$label-font-weight: 500;
+$label-margin-bottom: 0.5rem;
+$input-bg: #fff; // Or slightly off-white like #f8f9fa
+
+.dynamic-form-container.card {
+  border: none; // Remove default card border if using shadow
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem; // Add some space below the form card
+
+  .card-body {
+    padding: $form-padding;
+    background-color: #fdfdfd; // Very light background for content area
+  }
+
+  .card-title {
+    font-size: 1.5rem; // Larger title
+    font-weight: 600; // Bolder title
+    margin-bottom: $form-padding; // Space below title
+    padding-bottom: $form-padding * 0.6;
+    border-bottom: 1px solid #eee;
+    color: #343a40;
+  }
+
+  .form-group {
+    display: flex;
+    align-items: flex-start; // Align label top with input top
+    gap: 1rem; // Space between label and input wrapper
+    margin-bottom: $form-padding * 0.9; 
+
+    // Handle hidden fields - don't apply flex layout
+    &:has(input[type="hidden"]) {
+      display: none; // Hide the group entirely for hidden fields
+    }
+  }
+
+  .form-label {
+    flex: 0 0 180px; // Don't grow, don't shrink, basis of 180px
+    text-align: right;
+    font-weight: $label-font-weight;
+    margin-bottom: 0; // Remove bottom margin as flex gap handles spacing
+    font-size: 0.9em;
+    color: #495057;
+    padding-top: calc(0.375rem + 1px); // Align baseline with bs input padding+border
+    // Adjust padding top based on default form-control padding and border
+  }
+
+  .input-wrapper {
+    flex: 1 1 auto; // Allow wrapper to grow and shrink
+    display: flex;
+    flex-direction: column; // Stack input and error message vertically
+  }
+
+  // Ensure consistent input/select styling
+  .form-control,
+  .form-select {
+    display: block; 
+    width: 100%; 
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529; 
+    background-color: $input-bg;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    appearance: none; 
+    border-radius: 0.25rem; 
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    box-sizing: border-box; // Ensure padding/border included in height
+    // Explicit height calculation (line-height * font-size + padding-top + padding-bottom + border-top + border-bottom)
+    // (1.5 * 1rem) + 0.375rem + 0.375rem + 1px + 1px 
+    // Approx calc(1.5em + 0.75rem + 2px) - uses em for line height relation
+    height: calc(1.5em + 0.75rem + 2px); 
+
+    // Add background image for select dropdown arrow (from Bootstrap)
+    &.form-select {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 16px 12px;
+      padding-right: 2.25rem; // Make space for the arrow
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    &:focus {
+      border-color: #86b7fe; // Bootstrap focus color
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); // Bootstrap focus shadow
+      background-color: $input-bg; // Maintain background on focus
+    }
+
+    // Style invalid state
+    &.is-invalid {
+      border-color: #dc3545; // Bootstrap danger color
+      &:focus {
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+      }
+    }
+  }
+
+  // Specific adjustments if needed
+  select.form-control {
+    // Fix potential height difference in some browsers
+  }
+
+  textarea.form-control {
+    min-height: 80px; // Ensure textarea has a reasonable minimum height
+  }
+
+  // Increased specificity by adding parent selector
+  .dynamic-form-container .invalid-feedback.d-block {
+    display: block !important;
+    font-size: 0.75em; // Made font smaller
+    margin-top: 0.25rem; // Keep top margin (value calculated from previous step)
+    color: #dc3545 !important; // Re-added !important to force override
+    padding-left: 0.1rem; // Tiny left padding to align slightly better if needed
+  }
+
+  // Style form actions area
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem; // Space between buttons
+    margin-top: $form-padding * 1.5; 
+    padding-top: $form-padding * 0.75;
+    border-top: 1px solid #eee;
+
+    .btn {
+      transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+      font-weight: 500;
+      padding: 0.5rem 1.25rem;
+      min-width: 100px;
+      text-align: center;
+      border-radius: 0.25rem !important;
+
+      // Primary button (Save/Submit)
+      &.btn-primary {
+        // Explicitly set base colors
+        background-color: #0d6efd; // BS primary
+        border-color: #0d6efd;
+        color: #fff;
+        &:not(:disabled):hover {
+           background-color: #0b5ed7; // Darker primary
+           border-color: #0a58ca;
+        }
+      }
+
+      // Secondary button (Cancel)
+      &.btn-secondary {
+        // Explicitly set base colors
+        background-color: #6c757d; // BS secondary
+        border-color: #6c757d;
+        color: #fff;
+        &:not(:disabled):hover {
+          background-color: #5c636a; // Darker secondary
+          border-color: #565e64;
+        }
+      }
+
+      // Disabled state styling (applies to both)
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+      }
+    }
+  }
+} 

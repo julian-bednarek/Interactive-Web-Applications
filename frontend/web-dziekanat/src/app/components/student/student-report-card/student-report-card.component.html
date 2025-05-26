@@ -1,0 +1,80 @@
+<mat-card class="personal-data-card report-card-card">
+  <mat-card-content>
+    <div class="section-header">Report Card</div>
+
+    <!-- Replace Semester Selector div with the shared component -->
+    <app-semester-selector [availableSemesters]="availableSemesters" [initialSemester]="selectedSemester"
+      (selectionChange)="onSemesterChange($event)" appearance="outline" class="report-card-semester-selector">
+    </app-semester-selector>
+
+    <ng-container *ngIf="displayedReportCard; else noDataOrSemester">
+
+      <!-- Subjects Table -->
+      <div class="mat-elevation-z2 report-table-container">
+        <table mat-table [dataSource]="displayedReportCard.subjects || []">
+
+          <!-- Subject Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Subject </th>
+            <td mat-cell *matCellDef="let subject"> {{subject?.name}} </td>
+          </ng-container>
+
+          <!-- Code Column -->
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef> Code </th>
+            <td mat-cell *matCellDef="let subject"> {{subject?.code}} </td>
+          </ng-container>
+
+          <!-- Teacher Column -->
+          <ng-container matColumnDef="teacher">
+            <th mat-header-cell *matHeaderCellDef> Teacher </th>
+            <td mat-cell *matCellDef="let subject"> {{subject?.teacher || '-'}} </td>
+          </ng-container>
+
+          <!-- ECTS Column -->
+          <ng-container matColumnDef="ects">
+            <th mat-header-cell *matHeaderCellDef> ECTS </th>
+            <td mat-cell *matCellDef="let subject"> {{subject?.ects}} </td>
+          </ng-container>
+
+          <!-- Grade Column -->
+          <ng-container matColumnDef="finalGrade">
+            <th mat-header-cell *matHeaderCellDef> Grade </th>
+            <td mat-cell *matCellDef="let subject"> {{subject.finalGrade !== null ? subject.finalGrade : '-'}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+        <!-- Add Paginator or other features if needed later -->
+      </div>
+
+      <!-- Summary Section -->
+      <div class="report-summary">
+        <div>
+          <span class="label">Semester Average:</span>
+          <span class="value">{{ displayedReportCard.average !== null ? (displayedReportCard.average | number:'1.2-2') :
+            '-' }}</span>
+        </div>
+        <div>
+          <span class="label">ECTS Earned / Total:</span>
+          <span class="value">{{ displayedReportCard.ECTScolleted || '0' }} / {{ displayedReportCard.ECTSsum || 'N/A'
+            }}</span>
+        </div>
+      </div>
+
+    </ng-container>
+
+    <!-- Template shown if no specific semester data OR no data at all -->
+    <ng-template #noDataOrSemester>
+      <div class="no-data-message" *ngIf="availableSemesters.length === 0">
+        Report card data not available.
+      </div>
+      <div class="no-data-message" *ngIf="availableSemesters.length > 0 && !displayedReportCard">
+        No data found for the selected semester ({{ selectedSemester }}).
+      </div>
+    </ng-template>
+
+  </mat-card-content>
+</mat-card>

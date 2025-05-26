@@ -1,0 +1,144 @@
+<div class="user-sub-dashboard">
+
+  <!-- Fill Details Form Overlay -->
+  <div class="form-overlay" *ngIf="showFillForm">
+    <app-admin-fill-user-details-form *ngIf="selectedUserToFill" [auth0Id]="selectedUserToFill.auth0Id"
+      [role]="selectedUserToFill.role" [faculties$]="faculties$" [isLoadingFaculties]="isLoadingFaculties"
+      [facultyError]="facultyError" (formSubmitted)="handleFormSubmitted()"
+      (cancelled)="handleFormCancelled()"></app-admin-fill-user-details-form>
+  </div>
+
+  <!-- Manage Subjects Modal/Overlay -->
+  <div class="form-overlay" *ngIf="showManageSubjectsModal">
+    <app-manage-student-subjects *ngIf="selectedStudentForSubjects"
+      [student]="selectedStudentForSubjects"
+      [allSubjectsInput]="allSubjects$ | async"
+      [isLoadingAllSubjects]="isLoadingAllSubjects"
+      (close)="handleManageSubjectsClosed()">
+    </app-manage-student-subjects>
+  </div>
+
+  <!-- NEW Manage Fees Modal/Overlay -->
+  <div class="form-overlay" *ngIf="showManageFeesModal">
+    <app-manage-fees *ngIf="selectedStudentForFees"
+      [student]="selectedStudentForFees"
+      (close)="handleManageFeesClosed()">
+    </app-manage-fees>
+  </div>
+
+  <!-- Dashboard Header (Hidden when any modal/form is shown) -->
+  <div class="dashboard-header" [hidden]="showFillForm || showManageSubjectsModal || showManageFeesModal">
+    <h2>Manage Users</h2>
+    <!-- View Selection Buttons -->
+    <div class="view-selector">
+      <button class="btn" [class.btn-primary]="activeUserView === 'notFilled'"
+        [class.btn-secondary]="activeUserView !== 'notFilled'" (click)="setActiveView('notFilled')">
+        <span class="icon">⏳</span> Not Filled Users
+      </button>
+      <button class="btn" [class.btn-primary]="activeUserView === 'students'"
+        [class.btn-secondary]="activeUserView !== 'students'" (click)="setActiveView('students')">
+        <span class="icon">🎓</span> Students
+      </button>
+      <button class="btn" [class.btn-primary]="activeUserView === 'teachers'"
+        [class.btn-secondary]="activeUserView !== 'teachers'" (click)="setActiveView('teachers')">
+        <span class="icon">🧑‍🏫</span> Teachers
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content Area (Hidden when any modal/form is shown) -->
+  <div [hidden]="showFillForm || showManageSubjectsModal || showManageFeesModal">
+    <!-- Loading Indicator -->
+    <div *ngIf="isLoading && !error" class="loading-indicator">Loading user data...</div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="error-message">
+      <p><strong>Error:</strong> {{ error }}</p>
+      <button (click)="refreshData()">Retry</button>
+    </div>
+
+    <!-- Content Area -->
+    <div class="dashboard-content">
+      <!-- Conditional Content Display -->
+      <ng-container *ngIf="!isLoading || error">
+        <!-- Not Filled Users Section -->
+        <section *ngIf="activeUserView === 'notFilled'" class="user-section not-filled-users">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="card-title"><span class="icon">⏳</span> Not Filled Users</h3>
+            <button class="btn btn-info btn-sm" (click)="syncUsers()" [disabled]="isLoadingSync">
+              <span *ngIf="!isLoadingSync"><span class="icon">🔄</span> Sync Users</span>
+              <span *ngIf="isLoadingSync"><span class="spinner-border spinner-border-sm" role="status"
+                  aria-hidden="true"></span> Syncing...</span>
+            </button>
+          </div>
+          <div class="card-body">
+            <ng-container *ngIf="notFilledUsers$ | async as users; else loadingNotFilled">
+              <div class="list-scroll-container" *ngIf="users.length > 0; else noNotFilled">
+                <ul class="list-group list-group-flush">
+                  <li *ngFor="let user of users; let i = index" class="list-group-item d-flex justify-content-between align-items-start gap-3">
+                    <div class="user-info text-truncate mb-2" *ngIf="user.user_id; else missingId">
+                      <span class="user-meta-info">
+                        User ID: <strong class="user-id-value">{{ user.user_id }}</strong>
+                        <!-- DON'T REMOVE SPACE BEFORE Role!-->
+                        <span class="badge bg-warning text-dark ms-2"> Role: {{ user.role || 'Unknown' }}</span>
+                      </span>
+                    </div>
+                    <ng-template #missingId>
+                      <div class="user-info text-danger mb-2">
+                        <span class="user-meta-info">
+                          User ID Missing!
+                          <span class="badge bg-secondary text-dark ms-2">Role: {{ user.role || 'Unknown' }}</span>
+                        </span>
+                      </div>
+                    </ng-template>
+                    <div class="fill-details-button">
+                      <button class="btn btn-success btn-sm flex-shrink-0" (click)="fillUserDetails(user.user_id, user.role)" [disabled]="!user.user_id">
+                        Fill Details
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <ng-template #noNotFilled>
+                <p class="text-center text-muted">No users waiting for details.</p>
+              </ng-template>
+            </ng-container>
+            <ng-template #loadingNotFilled>
+              <div class="loading-indicator-inline"><span class="spinner-border spinner-border-sm"></span> Loading pending users...</div>
+            </ng-template>
+          </div>
+        </section>
+
+        <!-- Students Section -->
+        <section *ngIf="activeUserView === 'students'" class="user-section students">
+          <h3 class="card-title"><span class="icon">🎓</span> Students</h3>
+          <app-dynamic-table
+            [data]="students$ | async"
+            [columns]="studentTableColumns"
+            [actions]="studentTableActions"
+            [idKey]="'indexNumber'"
+            [isLoading]="isLoadingStudents"
+            noDataMessage="No students found."
+            (actionClick)="handleStudentTableAction($event)"
+          ></app-dynamic-table>
+        </section>
+
+        <!-- Teachers Section -->
+        <section *ngIf="activeUserView === 'teachers'" class="user-section teachers">
+          <h3 class="card-title"><span class="icon">🧑‍🏫</span> Teachers</h3>
+          <app-dynamic-table
+            [data]="teachers$ | async"
+            [columns]="teacherTableColumns"
+            [actions]="teacherTableActions"
+            [idKey]="'id'"
+            [isLoading]="isLoadingTeachers"
+            noDataMessage="No teachers found."
+            (actionClick)="handleTeacherTableAction($event)"
+          ></app-dynamic-table>
+        </section>
+
+      </ng-container>
+    </div>
+  </div> <!-- End Main Content Area -->
+
+</div>

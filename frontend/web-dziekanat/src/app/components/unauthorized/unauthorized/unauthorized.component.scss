@@ -1,0 +1,116 @@
+@use '@angular/material' as mat;
+
+// Define a subtle gradient
+$gradient-start: #e8eaf6; // Light indigo start
+$gradient-end: #fafafa; // Off-white end
+
+.unauthorized-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 64px); // Adjust based on header
+    padding: 2rem;
+    // Apply gradient background
+    background: linear-gradient(135deg, $gradient-start, $gradient-end);
+}
+
+.unauthorized-card {
+    @include mat.elevation(8); // Add more shadow
+    max-width: 550px; // Slightly wider
+    width: 100%;
+    text-align: center;
+    padding: 2rem; // Add padding inside the card
+    border-radius: 8px; // Rounded corners
+    background-color: #ffffff; // Ensure card background is white
+
+    mat-card-header {
+        display: flex;
+        flex-direction: column; // Stack avatar, title, subtitle
+        align-items: center;
+        padding-bottom: 1.5rem; // Increased spacing
+    }
+
+    .unauthorized-header-image {
+        margin-bottom: 1.5rem; // Increased spacing
+
+        // Ensure icon color is applied
+        mat-icon {
+            font-size: 64px; // Even larger icon
+            width: 64px;
+            height: 64px;
+            line-height: 64px;
+            color: #f44336; // Explicitly use Red 500 hex code
+        }
+    }
+
+    mat-card-title {
+        font-size: 1.8em; // Larger title
+        font-weight: 500;
+        margin-bottom: 0.5rem; // More space below title
+        color: #333;
+    }
+
+    mat-card-subtitle {
+        color: #757575; // Grey 600
+        margin-bottom: 1.5rem; // Increased spacing
+        font-size: 1em;
+    }
+
+    mat-card-content {
+        padding: 1rem 0;
+
+        p {
+            font-size: 1.15em; // Slightly larger message text
+            line-height: 1.7;
+            color: #555;
+        }
+    }
+
+    mat-card-actions {
+        justify-content: center; // Center buttons
+        padding-top: 1.5rem; // Increased spacing
+        gap: 1.5rem; // More space between buttons
+
+        // General button styling within actions
+        .unauthorized-button {
+            padding: 0.6rem 1.8rem; // Slightly more padding
+            font-size: 1em;
+            border-radius: 25px; // More rounded buttons
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 500;
+
+            &:hover {
+                transform: translateY(-2px); // Slight lift on hover
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            }
+        }
+
+        // Specific styles for home button
+        .home-button {
+            background-color: #B03060; // Light Maroon
+            color: #ffffff; // White text
+
+            &:hover {
+                background-color: #a02a55; // Darker Maroon on hover
+            }
+        }
+
+        // Specific styles for login button
+        .login-button {
+            background-color: #B03060; // Light Maroon
+            color: #ffffff; // White text
+            border: none; // Remove border from stroked button style
+
+            &:hover {
+                background-color: #a02a55; // Darker Maroon on hover
+                // Reset any default stroked button hover effects if needed
+                // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); // Keep the shadow lift
+            }
+        }
+    }
+}
+
+// Reset header text margin if needed (might not be necessary with padding)
+::ng-deep .mat-mdc-card-header-text {
+    margin: 0 !important;
+}

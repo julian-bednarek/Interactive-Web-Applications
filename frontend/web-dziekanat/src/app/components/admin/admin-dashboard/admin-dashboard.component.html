@@ -1,0 +1,9 @@
+<div class="admin-dashboard">
+  <app-dashboard-nav title="Admin Dashboard" [navItems]="adminNavItems" (mobileMenuToggle)="isMobileMenuOpen = $event"
+    (logoutEvent)="logout()">
+  </app-dashboard-nav>
+
+  <div class="content-area">
+    <router-outlet></router-outlet>
+  </div>
+</div>

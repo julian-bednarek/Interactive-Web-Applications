@@ -1,0 +1,196 @@
+/* Base styles for the dynamic table component */
+
+// Reusing styles previously defined in admin-fos-sub-dashboard.component.scss
+// Ensure these class names match the ones used in dynamic-table.component.html
+
+:host {
+  display: block; // Ensure component takes up space
+}
+
+.loading-indicator {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  background-color: #e5e7eb; // Tailwind gray-200
+  color: #4b5563; // Tailwind gray-600
+  text-align: center;
+}
+
+.table-container {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  overflow: hidden; // Needed for rounded corners if table has background
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  // Prevent shadow from being cut off if container itself scrolls
+  // overflow-x: auto; // Add this if horizontal scrolling is expected
+}
+
+.table {
+  min-width: 100%;
+  border-collapse: collapse;
+  // border-spacing: 0; // Reset spacing if using border-collapse: separate;
+}
+
+.table thead {
+  background-color: #f9fafb; // Tailwind bg-gray-50
+}
+
+.table th {
+  padding: 0.75rem 1.5rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600; // Use semibold for headers
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e5e7eb;
+
+  button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    &:hover {
+      color: #3b82f6;
+    }
+
+    span {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+.header-wrapper {
+  display: flex;
+  flex-direction: column;
+  /* stack children top → bottom */
+  align-items: stretch;
+  /* make them fill the full cell width */
+  gap: 0.25rem;
+  /* small vertical gap if you like */
+}
+
+/* 3) Optional: prevent your header text from wrapping */
+.header-content {
+  white-space: nowrap;
+  /* center it horizontally if you want: */
+  display: flex;
+}
+
+.table tbody {
+  background-color: #ffffff;
+}
+
+.table td {
+  padding: 1rem 1.5rem;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: middle; // Ensure vertical alignment is consistent
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table td.actions-cell {
+  display: flex; // Use flexbox
+  justify-content: center; // Center items if they don't fill space (optional, depends on desired look)
+  align-items: center; // Vertically center buttons
+  gap: 0.5rem; // Add spacing between buttons
+  white-space: nowrap;
+  // text-align: justify; // Remove this, flex handles alignment
+}
+
+.table td.actions-cell .button {
+  flex: 1;
+}
+
+.no-data-message {
+  text-align: center;
+  padding: 1.5rem 0;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.filter-input {
+  width: 4rem;
+  /* Adjust the width as needed */
+  padding: 0.25rem;
+  font-size: 0.75rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.25rem;
+
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+  }
+}
+
+/* Include base .button styles if not globally available */
+/* Assuming .button, .button-edit, .button-danger etc. might be defined globally */
+/* If not, copy the relevant button styles here or import a shared button stylesheet */
+
+.button {
+  display: inline-block;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  border: 1px solid transparent;
+  line-height: 1.5;
+  color: white; // Default text color for solid buttons
+
+  &:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.5);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(40%);
+  }
+}
+
+// Add specific button styles used by actions if needed locally
+.button-edit {
+  // Example
+  background-color: #3b82f6;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: #2563eb;
+  }
+}
+
+.button-danger {
+  // Example
+  background-color: #dc2626;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: #b91c1c;
+  }
+}
+
+.button-success {
+  // Added definition with darker green
+  background-color: #198754; // Bootstrap 5 btn-success green
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: #157347; // Darker green for hover
+  }
+}

@@ -1,0 +1,44 @@
+<div class="payments-container">
+  <div *ngIf="isLoading && availableSemesters.length === 0" class="loading-indicator">Loading semester information...
+  </div>
+  <div *ngIf="error && !isLoading && availableSemesters.length === 0" class="error-message">{{ error }}</div>
+
+  <ng-container *ngIf="availableSemesters.length > 0 && !error">
+    <app-semester-selector [availableSemesters]="availableSemesters" [initialSemester]="selectedSemester"
+      (selectionChange)="onSemesterChange($event)" appearance="outline" class="payments-semester-selector">
+    </app-semester-selector>
+
+    <div *ngIf="isLoading && availableSemesters.length > 0" class="loading-indicator">Loading payments for semester {{
+      selectedSemester }}...</div>
+    <div *ngIf="error && !isLoading && availableSemesters.length > 0" class="error-message">{{ error }}</div>
+
+    <ng-container *ngIf="!isLoading && !error">
+      <ng-container *ngIf="paymentsData; else noDataOrSemester">
+
+        <div class="semester-info">
+          <span class="label">Payments for Semester:</span>
+          <span class="value">{{ paymentsData.semester }}</span>
+        </div>
+
+        <div class="field-of-study-info">
+          <span><strong>Faculty:</strong> {{ paymentsData.fieldOfStudy.faculty || 'N/A' }}</span>
+          <span><strong>Field:</strong> {{ paymentsData.fieldOfStudy.name || 'N/A' }}</span>
+        </div>
+
+        <app-dynamic-table [data]="transformedFees" [columns]="feeTableColumns" [actions]="[]" [idKey]="'id'"
+          [isLoading]="false" noDataMessage="No fees assigned for this semester.">
+        </app-dynamic-table>
+
+      </ng-container>
+    </ng-container> <ng-template #noDataOrSemester>
+      <div *ngIf="!isLoading && !error && selectedSemester !== null" class="no-data">
+        No payment information found for semester {{ selectedSemester }}.
+      </div>
+    </ng-template>
+
+  </ng-container>
+  <div *ngIf="!isLoading && !error && availableSemesters.length === 0" class="no-data">
+    No semester information available to display payments.
+  </div>
+
+</div>

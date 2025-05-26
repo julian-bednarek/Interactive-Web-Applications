@@ -1,0 +1,63 @@
+<!-- Optional Loading Indicator -->
+<div *ngIf="isLoading" class="loading-indicator">Loading data...</div>
+
+<!-- Table Container -->
+<div [ngClass]="tableContainerClass" *ngIf="!isLoading">
+  <table [ngClass]="tableClass">
+    <!-- Table Header -->
+    <thead>
+      <!-- 1) TITLE ROW -->
+      <tr>
+        <th *ngFor="let col of columns" scope="col" (click)="col.isSortable && sortData(col)"
+          [class.sortable]="col.isSortable">
+          {{ col.header }}
+          <span *ngIf="col.isSortable">
+            {{ sortColumn === col.key
+            ? (sortOrder === 'asc' ? '▲' : '▼')
+            : '☰' }}
+          </span>
+        </th>
+        <th *ngIf="displayActionsColumn" scope="col">Actions</th>
+      </tr>
+
+      <!-- 2) FILTER ROW -->
+      <tr>
+        <th *ngFor="let col of columns">
+          <input *ngIf="col.type === 'string'" type="text" [(ngModel)]="col.filterValue" (ngModelChange)="filterData()"
+            placeholder="Filter" class="filter-input" />
+        </th>
+        <th *ngIf="displayActionsColumn"></th>
+      </tr>
+    </thead>
+    <!-- Table Body -->
+    <tbody>
+      <!-- Data Rows -->
+      <ng-container *ngIf="filteredData && filteredData.length > 0; else noData">
+        <tr *ngFor="let item of filteredData; trackBy: trackByItemId">
+          <!-- Data Cells -->
+          <td *ngFor="let column of columns">
+            {{ getDisplayValue(item, column) }}
+          </td>
+          <!-- Actions Cell (only if actions exist) -->
+          <td *ngIf="displayActionsColumn" class="actions-cell">
+            <button *ngFor="let action of actions" type="button" [ngClass]="action.buttonClass || 'button'"
+              [title]="action.title || action.label" (click)="onActionClick(action.actionId, item)">
+              {{ action.label }}
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+  <!-- No Data Template -->
+  <ng-template #noData>
+    <tbody> <!-- Wrap in tbody to avoid layout shifts -->
+      <tr>
+        <td [attr.colspan]="columns.length + (displayActionsColumn ? 1 : 0)" class="no-data-message">
+          {{ noDataMessage }}
+        </td>
+      </tr>
+    </tbody>
+  </ng-template>
+</div>

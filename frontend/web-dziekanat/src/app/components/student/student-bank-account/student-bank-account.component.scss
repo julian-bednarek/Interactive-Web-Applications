@@ -1,0 +1,255 @@
+/* Styles for StudentBankAccountComponent - Adopted from PersonalData styles */
+@use '@angular/material' as mat;
+
+// Copied from report-card component for consistency
+.section-header {
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #3f51b5; // Example primary color - Adjust to match theme if possible
+  margin-bottom: 1rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+// General card styling
+.bank-account-card {
+  margin: 1rem;
+  // Remove internal padding, rely on content padding
+  // padding: 1rem; 
+}
+
+// Remove specific header padding rule
+/*
+mat-card-header {
+  padding-bottom: 0.5rem;
+}
+*/
+
+mat-card-content {
+  padding: 1.5rem; // Add padding to content area
+}
+
+.account-section {
+  margin-bottom: 1.5rem;
+  // Remove padding-bottom, handled by overall content padding and margins
+  // padding-bottom: 1rem; 
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .label {
+    font-size: 1em;
+    font-weight: 500;
+    color: #495057; // Match personal-data label color
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .value {
+    font-size: 1em;
+    color: #212529; // Match personal-data value color
+    word-wrap: break-word;
+  }
+
+  .description {
+    font-size: 0.85em; // Slightly smaller description
+    color: #757575; // Grey 600
+    margin-top: 0.4rem;
+    line-height: 1.4;
+  }
+}
+
+.account-number {
+  // font-family: monospace; // Remove monospace font
+  background-color: #e9ecef; // Match disabled input background
+  padding: 0.5rem 0.75rem; // Match input padding
+  border-radius: 0.375rem; // Match input border radius
+  display: block; // Make it block level
+  max-width: 350px; // Match withdrawal input max-width
+  border: 1px solid #e0e0e0;
+  font-size: 1em; // Ensure font size matches input
+  line-height: 1.5; // Match input line-height
+  color: #212529; // Match input text color
+  word-break: break-all; // Allow long numbers to break
+}
+
+mat-divider {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.withdrawal-section {
+  .withdrawal-content {
+    display: flex;
+    align-items: flex-start; // Align to top to prevent shift when error appears
+    gap: 1rem;
+  }
+
+  .withdrawal-input {
+    flex-grow: 1;
+    min-width: 200px;
+    max-width: 350px; // Reduce maximum width further
+  }
+
+  // Styles for the basic input
+  .form-control-basic {
+    display: block;
+    width: 100%; // Take full width of its container (.withdrawal-input)
+    padding: 0.5rem 0.75rem; // Standard padding
+    font-size: 1em; // Match value font size
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da; // Standard border
+    appearance: none; // Remove default system appearance
+    border-radius: 0.375rem; // Standard border radius
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+    &:focus {
+      color: #212529;
+      background-color: #fff;
+      border-color: #86b7fe;
+      outline: 0;
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, .25);
+    }
+
+    &::placeholder {
+      color: #6c757d;
+      opacity: 1;
+    }
+
+    &:disabled {
+      background-color: #e9ecef;
+      opacity: 1;
+      cursor: not-allowed;
+    }
+  }
+
+  .withdrawal-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    margin-left: 1rem; // Explicitly add left margin for spacing from input
+  }
+
+  .action-spinner {
+    margin-left: 0.5rem;
+  }
+
+  // Style for the input wrapper containing validation msg
+  .input-wrapper {
+    flex-grow: 1; // Takes up space like the input did
+    min-width: 200px;
+    max-width: 350px;
+  }
+
+  // Styling for invalid input state
+  .form-control-basic.is-invalid {
+    border-color: #dc3545; // Standard Bootstrap error color
+
+    &:focus {
+      border-color: #dc3545;
+      box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    }
+  }
+
+  // Validation Error Message Styling
+  .validation-error {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545; // Standard Bootstrap error color
+  }
+}
+
+// Error Message Styling
+.error-message-box {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  background-color: #ffebee; // Red 50
+  color: #d32f2f; // Red 700
+  border: 1px solid #ffcdd2; // Red 100
+  margin-top: 0.75rem; // Add space above error message
+
+  .error-icon {
+    margin-right: 0.5rem;
+    color: #d32f2f; // Red 700
+  }
+}
+
+.no-data-message {
+  font-style: italic;
+  color: #6c757d;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+// Basic Button Styles (add if not defined globally)
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.65;
+  }
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #3b82f6; // Admin blue
+  border-color: #3b82f6;
+
+  &:hover:not(:disabled) {
+    background-color: #2563eb; // Darker admin blue
+    border-color: #1d4ed8;
+  }
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #3b82f6; // Admin blue (for Edit button)
+  border-color: #3b82f6;
+
+  &:hover:not(:disabled) {
+    background-color: #2563eb; // Darker admin blue
+    border-color: #1d4ed8;
+  }
+}
+
+.btn-light {
+  color: #fff; // White text for grey button
+  background-color: #6c757d; // Admin grey (for Cancel button)
+  border-color: #6c757d;
+
+  &:hover:not(:disabled) {
+    background-color: #5c636a; // Darker admin grey
+    border-color: #565e64;
+    color: #fff;
+  }
+}
+
+// Remove unused placeholders
+/*
+.instructions { ... }
+.edit-section { ... }
+*/

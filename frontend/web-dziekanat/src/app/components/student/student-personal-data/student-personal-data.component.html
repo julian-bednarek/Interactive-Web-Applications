@@ -1,0 +1,85 @@
+<mat-card class="personal-data-card">
+  <mat-card-header>
+  </mat-card-header>
+  <mat-card-content>
+    <div *ngIf="isLoading" class="loading-indicator">Loading personal data...</div>
+    <div *ngIf="error && !isLoading" class="error-message">{{ error }}</div>
+
+    <ng-container *ngIf="(personalData$ | async) as personalData; else noDataOrLoading">
+      <dl class="data-list">
+
+        <div class="section-header">Personal Information</div>
+        <div class="data-item">
+          <dt>First Name:</dt>
+          <dd>{{ personalData.firstName || '-' }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>Last Name:</dt>
+          <dd>{{ personalData.lastName || '-' }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>PESEL:</dt>
+          <dd>{{ personalData.PESEL || '-' }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>Place of Birth:</dt>
+          <dd>{{ personalData.placeOfBirth || '-' }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>Father's Name:</dt>
+          <dd>{{ personalData.fatherName || '-' }}</dd>
+        </div>
+
+        <div class="section-header">Address</div>
+        <ng-container *ngIf="personalData.address as address; else noAddressBlock">
+          <div class="data-item">
+            <dt>Street:</dt>
+            <dd>{{ address.street || '-' }}</dd>
+          </div>
+          <div class="data-item">
+            <dt>House Number:</dt>
+            <dd>{{ address.houseNumber || '-' }}</dd>
+          </div>
+          <div class="data-item">
+            <dt>Flat Number:</dt>
+            <dd>{{ address.flatNumber || '-' }}</dd>
+          </div>
+          <div class="data-item">
+            <dt>City:</dt>
+            <dd>{{ address.city || '-' }}</dd>
+          </div>
+          <div class="data-item">
+            <dt>Voivodeship:</dt>
+            <dd>{{ address.voivodeship || '-' }}</dd>
+          </div>
+          <div class="data-item">
+            <dt>Zip Code:</dt>
+            <dd>{{ address.postalCode || '-' }}</dd>
+          </div>
+        </ng-container>
+        <ng-template #noAddressBlock>
+          <div class="data-item">
+            <dt>Address:</dt>
+            <dd>-</dd>
+          </div>
+        </ng-template>
+
+        <div class="section-header">Contact Info</div>
+        <div class="data-item">
+          <dt>Phone Number:</dt>
+          <dd>{{ personalData.phoneNumber || '-' }}</dd>
+        </div>
+        <div class="data-item">
+          <dt>eDelivery Mail:</dt>
+          <dd>{{ personalData.eDeliveryMail || '-' }}</dd>
+        </div>
+
+      </dl>
+    </ng-container>
+
+    <ng-template #noDataOrLoading>
+      <div *ngIf="!isLoading && !error" class="no-data-message">Personal data not available.</div>
+    </ng-template>
+
+  </mat-card-content>
+</mat-card>
